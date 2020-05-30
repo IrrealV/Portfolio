@@ -1,0 +1,72 @@
+
+.español{
+    padding-top: 2em;
+    background: url(https://previews.123rf.com/images/zoomzoom/zoomzoom1705/zoomzoom170500111/79328699-bandera-de-espa%C3%B1a-con-pintura.jpg) no-repeat center;
+    height: 30em;
+}
+
+.fondosp{
+    background: rgba(0, 0, 0, 0.411);
+    padding: 1em;
+}
+
+.linkedlin{
+    width: 130px;
+}
+
+.mail{
+    width: 200px;
+}
+
+.boton, .contacto1{
+    margin-top: 1em;
+}
+
+.ingles{
+    padding-top: 2em;
+    border-left: 2px solid black;
+    background: url(https://image.freepik.com/vector-gratis/grunge-bandera-reino-unido_1102-549.jpg) center;
+    height: 30em;
+}
+
+
+/*Media Query*/
+
+/* Extra small devices (portrait phones, less than 576px)*/
+@media (max-width: 575.98px) { 
+    header{
+        margin-top: 1em;
+    }
+    .inglestxt1{
+        margin: 2em;
+        margin-right: 3em;
+    }
+}
+
+/*Small devices (landscape phones, 576px and up)*/
+@media (min-width: 576px) {
+    header{
+        margin-top: 1em;
+    }
+}
+
+/* Medium devices (tablets, 768px and up)*/
+@media (min-width: 768px) { 
+    header{
+        margin-top: 1em;
+    }
+}
+
+/*Large devices (desktops, 992px and up)*/
+@media (min-width: 992px) { 
+    header{
+        margin-top: 1em;
+    }
+}
+
+/* Extra large devices (large desktops, 1200px and up)*/
+@media (min-width: 1200px) {
+    header{
+        margin-top: 1em;
+    }
+}
