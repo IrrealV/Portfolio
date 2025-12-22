@@ -56,22 +56,39 @@ import {
         </div>
       </div>
 
-      <!-- Profile Photo -->
+      <!-- Profile Photo with Flip Effect -->
       <div class="shrink-0">
-        <div class="relative">
-          <div
-            class="w-32 h-32 md:w-40 md:h-40 lg:w-48 lg:h-48 rounded-full overflow-hidden border-4 border-(--color-border) shadow-xl"
-          >
-            <img
-              src="/perfil.jpg"
-              alt="Víctor Manuel Heras"
-              class="w-full h-full object-cover"
-            />
-          </div>
+        <div class="relative group perspective-1000">
           <!-- Decorative ring -->
           <div
-            class="absolute inset-0 rounded-full border-2 border-(--color-accent) opacity-50 scale-110"
+            class="absolute inset-0 rounded-full border-2 border-(--color-accent) opacity-50 scale-110 z-10"
           >
+          </div>
+
+          <!-- Flip Card Container -->
+          <div class="flip-card w-32 h-32 md:w-40 md:h-40 lg:w-48 lg:h-48">
+            <div class="flip-card-inner group-hover:rotate-y-180">
+              <!-- Front - Profile Photo -->
+              <div
+                class="flip-card-front rounded-full overflow-hidden border-4 border-(--color-border) shadow-xl"
+              >
+                <img
+                  src="/perfil.jpg"
+                  alt="Víctor Manuel Heras"
+                  class="w-full h-full object-cover"
+                />
+              </div>
+              <!-- Back - Logo/Favicon -->
+              <div
+                class="flip-card-back rounded-full border-4 border-(--color-accent) shadow-xl bg-(--color-bg-secondary) flex items-center justify-center"
+              >
+                <img
+                  src="/favicon.svg"
+                  alt="Logo"
+                  class="w-1/2 h-1/2 object-contain"
+                />
+              </div>
+            </div>
           </div>
         </div>
       </div>
