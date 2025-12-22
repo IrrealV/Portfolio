@@ -1,0 +1,22 @@
+---
+import Section from '../ui/Section.astro';
+import TechPill from '../ui/TechPill.astro';
+import { STACK } from '../../data';
+
+/**
+ * Tech stack section with pill badges
+ */
+---
+
+<Section title="Stack" id="stack">
+  <p class="text-(--color-text-muted) mb-6">
+    Tecnologías con las que trabajo habitualmente
+  </p>
+  <div class="flex flex-wrap gap-3">
+    {
+      STACK.map((tech) => (
+        <TechPill name={tech.name} colorClass={tech.colorClass} />
+      ))
+    }
+  </div>
+</Section>

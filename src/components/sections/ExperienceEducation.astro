@@ -1,0 +1,38 @@
+---
+import Timeline from '../ui/Timeline.astro';
+import { EXPERIENCE, EDUCATION } from '../../data';
+
+/**
+ * Side-by-side experience and education timelines
+ */
+---
+
+<div class="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-16 py-16">
+  <!-- Experience -->
+  <div>
+    <h2
+      class="text-2xl font-bold mb-8 text-(--color-text) flex items-center gap-3"
+    >
+      <span
+        class="w-8 h-8 rounded-lg bg-(--color-accent) flex items-center justify-center text-white text-sm"
+        >💼</span
+      >
+      Experiencia
+    </h2>
+    <Timeline items={EXPERIENCE} type="experience" />
+  </div>
+
+  <!-- Education -->
+  <div>
+    <h2
+      class="text-2xl font-bold mb-8 text-(--color-text) flex items-center gap-3"
+    >
+      <span
+        class="w-8 h-8 rounded-lg bg-(--color-accent) flex items-center justify-center text-white text-sm"
+        >🎓</span
+      >
+      Educación
+    </h2>
+    <Timeline items={EDUCATION} type="education" />
+  </div>
+</div>

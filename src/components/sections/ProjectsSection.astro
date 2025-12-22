@@ -1,0 +1,15 @@
+---
+import Section from '../ui/Section.astro';
+import ProjectCard from '../ui/ProjectCard.astro';
+import { PROJECTS } from '../../data';
+
+/**
+ * Projects grid section
+ */
+---
+
+<Section title="Proyectos" id="projects">
+  <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+    {PROJECTS.map((project) => <ProjectCard project={project} />)}
+  </div>
+</Section>

@@ -1,9 +1,7 @@
 ---
 /**
- * Typewriter - Animated text that cycles through roles
- * Shows: "Front End Developer" → "Back End Developer" → "Fullstack Developer"
+ * Typewriter - Animated text that cycles through developer roles
  */
-
 interface Props {
   class?: string;
 }
@@ -35,80 +33,7 @@ const { class: className } = Astro.props;
 </style>
 
 <script>
-  function initTypewriter() {
-    const roles = [
-      'Front End Developer',
-      'Back End Developer',
-      'Fullstack Developer',
-    ];
-
-    const textEl = document.getElementById('typewriter-text');
-    if (!textEl) return;
-
-    let roleIndex = 0;
-    let charIndex = 0;
-    let isDeleting = false;
-    let isWaiting = false;
-
-    const typeSpeed = 80;
-    const deleteSpeed = 50;
-    const waitTime = 1500;
-
-    function type() {
-      const currentRole = roles[roleIndex];
-
-      if (isWaiting) {
-        return;
-      }
-
-      if (!isDeleting) {
-        // Typing
-        textEl!.textContent = currentRole.substring(0, charIndex + 1);
-        charIndex++;
-
-        if (charIndex === currentRole.length) {
-          // Finished typing
-          if (roleIndex === roles.length - 1) {
-            // Last role - stop and hide cursor
-            const cursor = document.querySelector(
-              '.typewriter-cursor',
-            ) as HTMLElement;
-            if (cursor) {
-              cursor.style.display = 'none';
-            }
-            return;
-          }
-
-          isWaiting = true;
-          setTimeout(() => {
-            isWaiting = false;
-            isDeleting = true;
-            type();
-          }, waitTime);
-          return;
-        }
-      } else {
-        // Deleting
-        textEl!.textContent = currentRole.substring(0, charIndex - 1);
-        charIndex--;
-
-        if (charIndex === 0) {
-          isDeleting = false;
-          roleIndex++;
-        }
-      }
-
-      const speed = isDeleting ? deleteSpeed : typeSpeed;
-      setTimeout(type, speed);
-    }
-
-    // Start after a small delay
-    setTimeout(type, 500);
-  }
-
-  // Run on initial load
+  import { initTypewriter } from '../../scripts/typewriter';
   initTypewriter();
-
-  // Re-run after View Transitions
   document.addEventListener('astro:after-swap', initTypewriter);
 </script>

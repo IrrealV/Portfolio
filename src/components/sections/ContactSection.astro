@@ -1,0 +1,24 @@
+---
+import SocialIcon from '../icons/SocialIcon.astro';
+import { SITE_INFO } from '../../data';
+
+/**
+ * Contact CTA section
+ */
+---
+
+<section class="py-20 text-center">
+  <div class="max-w-2xl mx-auto">
+    <h2 class="text-3xl font-bold mb-4 text-(--color-text)">¿Hablamos?</h2>
+    <p class="text-(--color-text-secondary) mb-8 text-lg">
+      Estoy abierto a nuevas oportunidades y colaboraciones.
+    </p>
+    <a
+      href={`mailto:${SITE_INFO.email}`}
+      class="inline-flex items-center gap-3 px-8 py-4 bg-(--color-accent) text-white font-semibold rounded-xl hover:opacity-90 transition-all duration-300 shadow-lg hover:shadow-xl hover:scale-105"
+    >
+      <SocialIcon name="email" class="w-5 h-5" />
+      Contáctame
+    </a>
+  </div>
+</section>

@@ -1,101 +1,75 @@
 ---
 import type { Experience, Education } from '../../types/portfolio';
-
 interface Props {
   items: (Experience | Education)[];
   type: 'experience' | 'education';
 }
-
 const { items, type } = Astro.props;
-
-function isExperience(item: Experience | Education): item is Experience {
-  return 'company' in item;
-}
-
-const timelineId = `timeline-${type}`;
-
-// Reverse array so oldest is on the left, most recent on the right
-const reversedItems = [...items].reverse();
-
-// Get end date from period string (format: "start – end" or just "start" if ongoing)
-function getEndDate(period: string): string {
-  const parts = period.split('–');
-  return parts.length > 1 ? parts[1].trim() : 'Actual';
-}
+const id = `timeline-${type}`,
+  reversed = [...items].reverse();
+const isExp = (i: Experience | Education): i is Experience => 'company' in i;
+const endDate = (p: string) => p.split('–')[1]?.trim() || 'Actual';
 ---
 
-<div class="timeline-wrapper" id={timelineId}>
-  <!-- Timeline Track with horizontal scroll -->
+<div class="timeline-wrapper" id={id}>
   <div class="overflow-x-auto pb-4 scrollbar-hide">
     <div class="flex gap-1 relative min-w-max">
-      <!-- Horizontal line that goes THROUGH the dots -->
-      <div class="absolute top-[5px] left-0 right-0 h-px bg-(--color-border) z-0"></div>
-      
-      {reversedItems.map((item, index) => (
-        <button
-          type="button"
-          class="timeline-item group shrink-0 pt-8 px-2 text-left min-w-[110px] max-w-[140px] relative cursor-pointer bg-transparent border-none"
-          data-index={index}
-          aria-expanded="false"
-          aria-controls={`${timelineId}-panel-${index}`}
-        >
-          <!-- Dot (on top of line) -->
-          <div class="absolute top-0 left-1/2 -translate-x-1/2 w-3 h-3 rounded-full bg-(--color-bg) border-2 border-(--color-border) group-hover:border-(--color-accent) group-hover:bg-(--color-accent) group-focus:border-(--color-accent) group-focus:bg-(--color-accent) transition-all duration-300 z-10"></div>
-          
-          <!-- Period (end date) -->
-          <span class="block text-xs text-(--color-text-muted) mb-1">
-            {getEndDate(item.period)}
-          </span>
-          
-          <!-- Title -->
-          <span class="block text-sm font-medium text-(--color-text-secondary) group-hover:text-(--color-accent) group-focus:text-(--color-accent) transition-colors line-clamp-2">
-            {isExperience(item) ? item.company : item.institution}
-          </span>
-        </button>
-      ))}
+      <div
+        class="absolute top-[5px] left-0 right-0 h-px bg-(--color-border) z-0"
+      >
+      </div>
+      {
+        reversed.map((item, i) => (
+          <button
+            type="button"
+            class="timeline-item group shrink-0 pt-8 px-2 text-left min-w-[110px] max-w-[140px] relative cursor-pointer bg-transparent border-none"
+            data-index={i}
+            aria-expanded="false"
+          >
+            <div class="absolute top-0 left-1/2 -translate-x-1/2 w-3 h-3 rounded-full bg-(--color-bg) border-2 border-(--color-border) group-hover:border-(--color-accent) group-hover:bg-(--color-accent) transition-all z-10" />
+            <span class="block text-xs text-(--color-text-muted) mb-1">
+              {endDate(item.period)}
+            </span>
+            <span class="block text-sm font-medium text-(--color-text-secondary) group-hover:text-(--color-accent) line-clamp-2">
+              {isExp(item) ? item.company : item.institution}
+            </span>
+          </button>
+        ))
+      }
     </div>
   </div>
-
-  <!-- Panels Container (outside the scroll area) -->
-  <div class="panels-container relative mt-2 min-h-0">
-    {reversedItems.map((item, index) => (
-      <div
-        id={`${timelineId}-panel-${index}`}
-        class="timeline-panel hidden absolute left-0 right-0 w-full max-w-sm p-4 rounded-xl bg-(--color-bg-secondary) border border-(--color-border) shadow-xl z-50"
-        data-panel-index={index}
-      >
-        <div class="space-y-2">
-          <h4 class="font-semibold text-(--color-text) text-base">
-            {isExperience(item) ? item.title : item.degree}
+  <div class="panels-container relative mt-2">
+    {
+      reversed.map((item, i) => (
+        <div
+          id={`${id}-panel-${i}`}
+          class="timeline-panel hidden absolute left-0 w-full max-w-sm p-4 rounded-xl bg-(--color-bg-secondary) border border-(--color-border) shadow-xl z-50"
+          data-panel-index={i}
+        >
+          <h4 class="font-semibold text-(--color-text)">
+            {isExp(item) ? item.title : item.degree}
           </h4>
-          
-          <p class="text-xs text-(--color-accent) font-medium">
-            {isExperience(item) ? item.period : item.period}
-          </p>
-          
+          <p class="text-xs text-(--color-accent)">{item.period}</p>
           <p class="text-sm text-(--color-text-secondary)">
-            {isExperience(item) ? `${item.company} · ${item.location}` : item.institution}
+            {isExp(item)
+              ? `${item.company} · ${item.location}`
+              : item.institution}
           </p>
-          
           {item.description && (
-            <p class="text-sm text-(--color-text-muted) leading-relaxed">
+            <p class="text-sm text-(--color-text-muted) mt-2">
               {item.description}
             </p>
           )}
-          
-          {isExperience(item) && item.bullets.length > 0 && (
-            <ul class="mt-3 space-y-1.5">
-              {item.bullets.slice(0, 3).map((bullet) => (
-                <li class="text-sm text-(--color-text-muted) flex items-start gap-2">
-                  <span class="text-(--color-accent) shrink-0">→</span>
-                  <span>{bullet}</span>
-                </li>
+          {isExp(item) && item.bullets.length > 0 && (
+            <ul class="mt-2 space-y-1">
+              {item.bullets.slice(0, 3).map((b) => (
+                <li class="text-sm text-(--color-text-muted)">→ {b}</li>
               ))}
             </ul>
           )}
         </div>
-      </div>
-    ))}
+      ))
+    }
   </div>
 </div>
 
@@ -107,73 +81,23 @@ function getEndDate(period: string): string {
   .scrollbar-hide::-webkit-scrollbar {
     display: none;
   }
-  
   .timeline-panel.active {
     display: block;
-    animation: fadeIn 0.2s ease-out;
+    animation: fadeIn 0.2s;
   }
-  
   @keyframes fadeIn {
-    from { opacity: 0; transform: translateY(-8px); }
-    to { opacity: 1; transform: translateY(0); }
+    from {
+      opacity: 0;
+      transform: translateY(-8px);
+    }
+    to {
+      opacity: 1;
+    }
   }
 </style>
 
 <script>
-  function initTimelines() {
-    document.querySelectorAll('.timeline-wrapper').forEach((wrapper) => {
-      const items = wrapper.querySelectorAll('.timeline-item');
-      const panels = wrapper.querySelectorAll('.timeline-panel');
-      
-      let activeIndex: number | null = null;
-      let hideTimeout: ReturnType<typeof setTimeout> | null = null;
-      
-      function showPanel(index: number) {
-        if (hideTimeout) clearTimeout(hideTimeout);
-        
-        panels.forEach((panel, i) => {
-          if (i === index) {
-            panel.classList.add('active');
-          } else {
-            panel.classList.remove('active');
-          }
-        });
-        
-        items.forEach((item, i) => {
-          item.setAttribute('aria-expanded', i === index ? 'true' : 'false');
-        });
-        
-        activeIndex = index;
-      }
-      
-      function hidePanel() {
-        hideTimeout = setTimeout(() => {
-          panels.forEach(panel => panel.classList.remove('active'));
-          items.forEach(item => item.setAttribute('aria-expanded', 'false'));
-          activeIndex = null;
-        }, 150);
-      }
-      
-      items.forEach((item) => {
-        const index = parseInt(item.getAttribute('data-index') || '0', 10);
-        
-        item.addEventListener('mouseenter', () => showPanel(index));
-        item.addEventListener('focus', () => showPanel(index));
-        item.addEventListener('mouseleave', hidePanel);
-        item.addEventListener('blur', hidePanel);
-      });
-      
-      // Keep panel visible when hovering over it
-      panels.forEach((panel) => {
-        panel.addEventListener('mouseenter', () => {
-          if (hideTimeout) clearTimeout(hideTimeout);
-        });
-        panel.addEventListener('mouseleave', hidePanel);
-      });
-    });
-  }
-  
-  // Initialize on page load and after View Transitions
+  import { initTimelines } from '../../scripts/timeline';
   initTimelines();
   document.addEventListener('astro:after-swap', initTimelines);
 </script>

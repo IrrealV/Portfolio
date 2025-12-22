@@ -1,0 +1,28 @@
+---
+/**
+ * TechIcon - SVG icons for tech stack
+ * Icons data sourced from icons.ts for maintainability
+ */
+import { TECH_ICONS } from './icons';
+
+interface Props {
+  name: string;
+  class?: string;
+}
+
+const { name, class: className = 'w-4 h-4' } = Astro.props;
+const icon = TECH_ICONS[name];
+---
+
+{
+  icon && (
+    <svg
+      class={className}
+      viewBox={icon.viewBox}
+      fill={icon.fill ? 'currentColor' : 'none'}
+      stroke={!icon.fill ? 'currentColor' : 'none'}
+    >
+      <path d={icon.path} />
+    </svg>
+  )
+}

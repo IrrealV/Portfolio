@@ -1,0 +1,29 @@
+/* Theme CSS Variables - Light and Dark modes */
+
+:root {
+  /* Light theme */
+  --color-bg: #ffffff;
+  --color-bg-secondary: #f9fafb;
+  --color-bg-tertiary: #f3f4f6;
+  --color-text: #111827;
+  --color-text-secondary: #6b7280;
+  --color-text-muted: #9ca3af;
+  --color-border: #e5e7eb;
+  --color-border-hover: #d1d5db;
+  --color-accent: #6366f1;
+  --color-accent-light: #818cf8;
+}
+
+.dark {
+  /* Dark theme */
+  --color-bg: #0a0a0b;
+  --color-bg-secondary: #111113;
+  --color-bg-tertiary: #18181b;
+  --color-text: #fafafa;
+  --color-text-secondary: #a1a1aa;
+  --color-text-muted: #71717a;
+  --color-border: #27272a;
+  --color-border-hover: #3f3f46;
+  --color-accent: #818cf8;
+  --color-accent-light: #a5b4fc;
+}
