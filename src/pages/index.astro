@@ -61,7 +61,7 @@ import {
         <div class="relative group perspective-1000">
           <!-- Decorative ring -->
           <div
-            class="absolute inset-0 rounded-full border-2 border-(--color-accent) opacity-50 scale-110 z-10"
+            class="absolute inset-0 rounded-full border-2 border-(--color-accent) opacity-50 scale-110 z-10 pointer-events-none"
           >
           </div>
 
@@ -78,16 +78,19 @@ import {
                   class="w-full h-full object-cover"
                 />
               </div>
-              <!-- Back - Logo/Favicon -->
-              <div
-                class="flip-card-back rounded-full border-4 border-(--color-accent) shadow-xl bg-(--color-bg-secondary) flex items-center justify-center"
+              <!-- Back - Logo/Favicon (clickable for easter egg) -->
+              <button
+                id="gravity-trigger"
+                type="button"
+                class="flip-card-back rounded-full border-4 border-(--color-accent) shadow-xl bg-(--color-bg-secondary) flex items-center justify-center cursor-pointer hover:scale-105 transition-transform"
+                aria-label="Easter egg"
               >
                 <img
                   src="/favicon.svg"
                   alt="Logo"
-                  class="w-1/2 h-1/2 object-contain"
+                  class="w-1/2 h-1/2 object-contain pointer-events-none"
                 />
-              </div>
+              </button>
             </div>
           </div>
         </div>
@@ -181,3 +184,172 @@ import {
     </div>
   </section>
 </Layout>
+
+<script>
+  // 🎮 GRAVITY EASTER EGG
+  // Click the logo on the back of the flipped profile photo to activate!
+
+  function initGravityEasterEgg() {
+    const trigger = document.getElementById('gravity-trigger');
+    if (!trigger) return;
+
+    let isGravityActive = false;
+
+    trigger.addEventListener('click', (e) => {
+      e.preventDefault();
+
+      if (isGravityActive) {
+        // Reset everything
+        resetGravity();
+        return;
+      }
+
+      isGravityActive = true;
+      activateGravity();
+    });
+
+    function activateGravity() {
+      // Get all major elements to apply gravity to
+      const elements = document.querySelectorAll(
+        'section, header, .flip-card, h1, h2, p, a:not(#gravity-trigger), button:not(#gravity-trigger), span, div.flex > div, .timeline-item, img:not(.flip-card-back img)',
+      );
+
+      const bodies: Array<{
+        el: HTMLElement;
+        x: number;
+        y: number;
+        vx: number;
+        vy: number;
+        rotation: number;
+        vr: number;
+        originalTransform: string;
+        originalPosition: string;
+      }> = [];
+
+      elements.forEach((el) => {
+        const element = el as HTMLElement;
+        const rect = element.getBoundingClientRect();
+
+        // Skip very small or hidden elements
+        if (rect.width < 20 || rect.height < 20) return;
+
+        // Skip nested elements (only apply to first-level visible elements)
+        if (element.closest('.falling-element')) return;
+
+        bodies.push({
+          el: element,
+          x: rect.left + window.scrollX,
+          y: rect.top + window.scrollY,
+          vx: (Math.random() - 0.5) * 5,
+          vy: 0,
+          rotation: 0,
+          vr: (Math.random() - 0.5) * 10,
+          originalTransform: element.style.transform,
+          originalPosition: element.style.position,
+        });
+
+        element.classList.add('falling-element');
+        element.style.position = 'fixed';
+        element.style.zIndex = '9999';
+        element.style.left = rect.left + 'px';
+        element.style.top = rect.top + 'px';
+        element.style.width = rect.width + 'px';
+        element.style.transition = 'none';
+      });
+
+      const gravity = 0.5;
+      const bounce = 0.6;
+      const friction = 0.99;
+      const floor = window.innerHeight - 50;
+
+      let animationId: number = 0;
+
+      function animate() {
+        bodies.forEach((body) => {
+          // Apply gravity
+          body.vy += gravity;
+
+          // Apply velocity
+          body.x += body.vx;
+          body.y += body.vy;
+          body.rotation += body.vr;
+
+          // Friction
+          body.vx *= friction;
+          body.vr *= friction;
+
+          // Floor collision
+          const rect = body.el.getBoundingClientRect();
+          if (body.y + rect.height > floor) {
+            body.y = floor - rect.height;
+            body.vy = -body.vy * bounce;
+            body.vr *= bounce;
+
+            // Stop bouncing if velocity is low
+            if (Math.abs(body.vy) < 1) {
+              body.vy = 0;
+            }
+          }
+
+          // Wall collision
+          if (body.x < 0) {
+            body.x = 0;
+            body.vx = -body.vx * bounce;
+          }
+          if (body.x + rect.width > window.innerWidth) {
+            body.x = window.innerWidth - rect.width;
+            body.vx = -body.vx * bounce;
+          }
+
+          // Apply transforms
+          body.el.style.left = body.x + 'px';
+          body.el.style.top = body.y + 'px';
+          body.el.style.transform = `rotate(${body.rotation}deg)`;
+        });
+
+        animationId = requestAnimationFrame(animate);
+      }
+
+      animate();
+
+      // Store animation ID for cleanup
+      (window as any).gravityAnimationId = animationId;
+      (window as any).gravityBodies = bodies;
+    }
+
+    function resetGravity() {
+      isGravityActive = false;
+
+      // Cancel animation
+      if ((window as any).gravityAnimationId) {
+        cancelAnimationFrame((window as any).gravityAnimationId);
+      }
+
+      // Reset all elements
+      const bodies = (window as any).gravityBodies || [];
+      bodies.forEach((body: any) => {
+        body.el.classList.remove('falling-element');
+        body.el.style.position = body.originalPosition;
+        body.el.style.transform = body.originalTransform;
+        body.el.style.left = '';
+        body.el.style.top = '';
+        body.el.style.width = '';
+        body.el.style.zIndex = '';
+        body.el.style.transition = '';
+      });
+
+      // Reload page to fully reset
+      window.location.reload();
+    }
+  }
+
+  // Initialize on page load and after View Transitions
+  initGravityEasterEgg();
+  document.addEventListener('astro:after-swap', initGravityEasterEgg);
+</script>
+
+<style>
+  .falling-element {
+    pointer-events: none !important;
+  }
+</style>

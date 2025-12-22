@@ -2,7 +2,8 @@
   <rect x="2" y="2" width="60" height="60" rx="16" fill="#171717" stroke="#262626" stroke-width="2"/>
   
   <g fill="#e5e5e5">
-    <path d="M14 20 L24 44 L34 20 H29 L24 35 L19 20 Z" />
-    <path d="M36 20 H41 V30 H49 V20 H54 V44 H49 V34 H41 V44 H36 Z" />
+    <path d="M13 20 L22 46 L31 20 H25 L22 33 L19 20 Z" />
+    
+    <path d="M33 20 H39 L42 31 L45 20 H51 V46 H45 V33 L42 42 L39 33 V46 H33 Z" />
   </g>
 </svg>
