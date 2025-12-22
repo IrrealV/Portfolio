@@ -4,7 +4,7 @@ import '@fontsource/inter/500.css';
 import '@fontsource/inter/600.css';
 import '@fontsource/inter/700.css';
 import '../styles/global.css';
-import { ViewTransitions } from 'astro:transitions';
+import { ClientRouter } from 'astro:transitions';
 import FloatingControls from '../components/ui/FloatingControls.astro';
 import { SITE_INFO } from '../data';
 
@@ -34,7 +34,7 @@ const { title = SITE_INFO.title, description = SITE_INFO.description } =
     <meta name="generator" content={Astro.generator} />
     <title>{title}</title>
 
-    <ViewTransitions />
+    <ClientRouter />
 
     <!-- Theme hydration script (prevents flash and works with View Transitions) -->
     <script is:inline>
