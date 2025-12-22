@@ -205,8 +205,8 @@ import {
     });
 
     function activateSpin() {
-      // Play a fun sound (using Web Audio API for a "boing" effect)
-      playBoingSound();
+      // Play a cartoon spin whoosh sound
+      playCartoonSpinSound();
 
       // Add spin class to body - this will trigger CSS animation
       document.body.classList.add('spinning-madness');
@@ -218,44 +218,65 @@ import {
       }, 1500);
     }
 
-    function playBoingSound() {
+    function playCartoonSpinSound() {
       try {
         const audioContext = new (
           window.AudioContext || (window as any).webkitAudioContext
         )();
 
-        // Create oscillator for "boing" effect
-        const oscillator = audioContext.createOscillator();
-        const gainNode = audioContext.createGain();
-
-        oscillator.connect(gainNode);
-        gainNode.connect(audioContext.destination);
-
-        // Start high, drop low (cartoon spring sound)
-        oscillator.frequency.setValueAtTime(800, audioContext.currentTime);
-        oscillator.frequency.exponentialRampToValueAtTime(
-          150,
-          audioContext.currentTime + 0.15,
+        // Create white noise for whoosh
+        const bufferSize = audioContext.sampleRate * 0.8;
+        const buffer = audioContext.createBuffer(
+          1,
+          bufferSize,
+          audioContext.sampleRate,
         );
-        oscillator.frequency.exponentialRampToValueAtTime(
-          400,
+        const data = buffer.getChannelData(0);
+
+        for (let i = 0; i < bufferSize; i++) {
+          data[i] = Math.random() * 2 - 1;
+        }
+
+        const whiteNoise = audioContext.createBufferSource();
+        whiteNoise.buffer = buffer;
+
+        // Bandpass filter for whoosh character
+        const filter = audioContext.createBiquadFilter();
+        filter.type = 'bandpass';
+        filter.frequency.setValueAtTime(100, audioContext.currentTime);
+        filter.frequency.exponentialRampToValueAtTime(
+          2000,
           audioContext.currentTime + 0.3,
         );
-        oscillator.frequency.exponentialRampToValueAtTime(
-          100,
-          audioContext.currentTime + 0.5,
+        filter.frequency.exponentialRampToValueAtTime(
+          300,
+          audioContext.currentTime + 0.6,
         );
+        filter.Q.value = 1;
 
-        // Volume envelope
-        gainNode.gain.setValueAtTime(0.3, audioContext.currentTime);
+        // Gain envelope
+        const gainNode = audioContext.createGain();
+        gainNode.gain.setValueAtTime(0, audioContext.currentTime);
+        gainNode.gain.linearRampToValueAtTime(
+          0.5,
+          audioContext.currentTime + 0.1,
+        );
+        gainNode.gain.linearRampToValueAtTime(
+          0.3,
+          audioContext.currentTime + 0.4,
+        );
         gainNode.gain.exponentialRampToValueAtTime(
           0.01,
-          audioContext.currentTime + 0.5,
+          audioContext.currentTime + 0.7,
         );
 
-        oscillator.type = 'sine';
-        oscillator.start(audioContext.currentTime);
-        oscillator.stop(audioContext.currentTime + 0.5);
+        // Connect nodes
+        whiteNoise.connect(filter);
+        filter.connect(gainNode);
+        gainNode.connect(audioContext.destination);
+
+        whiteNoise.start(audioContext.currentTime);
+        whiteNoise.stop(audioContext.currentTime + 0.8);
       } catch (e) {
         // Audio not supported, just do the visual effect silently
       }
@@ -268,56 +289,23 @@ import {
 </script>
 
 <style>
-  /* Spin animation keyframes */
-  @keyframes spinAround {
+  /* Smooth 360° spin animation */
+  @keyframes smoothSpin {
     0% {
-      transform: rotate(0deg) scale(1);
-    }
-    25% {
-      transform: rotate(90deg) scale(1.02);
-    }
-    50% {
-      transform: rotate(180deg) scale(1);
-    }
-    75% {
-      transform: rotate(270deg) scale(1.02);
-    }
-    100% {
-      transform: rotate(360deg) scale(1);
-    }
-  }
-
-  @keyframes wiggle {
-    0%,
-    100% {
       transform: rotate(0deg);
     }
-    25% {
-      transform: rotate(-5deg);
-    }
-    75% {
-      transform: rotate(5deg);
+    100% {
+      transform: rotate(360deg);
     }
   }
 
-  /* When spinning-madness is active, spin/wiggle all major elements */
+  /* When spinning-madness is active, EVERYTHING spins 360° */
+  :global(.spinning-madness) {
+    overflow: hidden;
+  }
+
   :global(.spinning-madness) main {
-    animation: spinAround 1.2s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+    animation: smoothSpin 0.8s ease-in-out;
     transform-origin: center center;
-  }
-
-  :global(.spinning-madness) header,
-  :global(.spinning-madness) section,
-  :global(.spinning-madness) footer {
-    animation: wiggle 0.3s ease-in-out 4;
-  }
-
-  :global(.spinning-madness) h1,
-  :global(.spinning-madness) h2 {
-    animation: wiggle 0.2s ease-in-out 6;
-  }
-
-  :global(.spinning-madness) .flip-card {
-    animation: spinAround 1s cubic-bezier(0.68, -0.55, 0.265, 1.55);
   }
 </style>
