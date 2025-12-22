@@ -40,7 +40,7 @@ export const SOCIALS: SocialLink[] = [
 
 export const STACK: TechItem[] = [
   { name: 'NestJS', colorClass: 'text-red-500' },
-  { name: 'Next.js', colorClass: 'text-neutral-800 dark:text-neutral-200' },
+  { name: 'Next.js', colorClass: 'text-black dark:text-white' },
   { name: 'Astro', colorClass: 'text-orange-500' },
   { name: 'Angular', colorClass: 'text-red-600' },
   { name: 'TypeScript', colorClass: 'text-blue-600' },
