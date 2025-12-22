@@ -18,7 +18,7 @@ const { title = SITE_INFO.title, description = SITE_INFO.description } =
 ---
 
 <!doctype html>
-<html lang="es" class="dark">
+<html lang="es">
   <head>
     <meta charset="UTF-8" />
     <meta name="description" content={description} />
@@ -36,16 +36,21 @@ const { title = SITE_INFO.title, description = SITE_INFO.description } =
 
     <ViewTransitions />
 
-    <!-- Theme hydration script (prevents flash) -->
+    <!-- Theme hydration script (prevents flash and works with View Transitions) -->
     <script is:inline>
-      (function () {
+      function applyTheme() {
         const theme = localStorage.getItem('theme');
         if (theme === 'light') {
           document.documentElement.classList.remove('dark');
-        } else if (theme === 'dark' || !theme) {
+        } else {
+          // Default to dark if no preference
           document.documentElement.classList.add('dark');
         }
-      })();
+      }
+      // Apply immediately
+      applyTheme();
+      // Re-apply after View Transitions
+      document.addEventListener('astro:after-swap', applyTheme);
     </script>
   </head>
   <body class="font-sans antialiased min-h-screen">
