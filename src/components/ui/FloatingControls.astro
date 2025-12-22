@@ -70,17 +70,15 @@
 
 <script>
   import { initTheme } from '../../scripts/theme';
-  import { initBackToTop, initHashCleanup } from '../../scripts/navigation';
+  import { initBackToTop } from '../../scripts/navigation';
 
   // Initialize all controls
   initTheme();
   initBackToTop();
-  initHashCleanup();
 
   // Re-init after View Transitions
   document.addEventListener('astro:after-swap', () => {
     initTheme();
     initBackToTop();
-    initHashCleanup();
   });
 </script>
