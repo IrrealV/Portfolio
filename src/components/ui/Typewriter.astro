@@ -63,7 +63,7 @@ const { class: className } = Astro.props;
 
       if (!isDeleting) {
         // Typing
-        textEl.textContent = currentRole.substring(0, charIndex + 1);
+        textEl!.textContent = currentRole.substring(0, charIndex + 1);
         charIndex++;
 
         if (charIndex === currentRole.length) {
@@ -89,7 +89,7 @@ const { class: className } = Astro.props;
         }
       } else {
         // Deleting
-        textEl.textContent = currentRole.substring(0, charIndex - 1);
+        textEl!.textContent = currentRole.substring(0, charIndex - 1);
         charIndex--;
 
         if (charIndex === 0) {

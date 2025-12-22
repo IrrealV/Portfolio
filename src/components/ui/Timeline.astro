@@ -12,27 +12,26 @@ function isExperience(item: Experience | Education): item is Experience {
   return 'company' in item;
 }
 
-// Generate unique IDs for accordion functionality
-const accordionId = `accordion-${type}-${Date.now()}`;
+// Generate unique IDs for hover functionality
+const timelineId = `timeline-${type}-${Date.now()}`;
 ---
 
 <div class="horizontal-timeline">
   <!-- Timeline Track -->
   <div class="relative">
-    <!-- Horizontal line -->
-    <div class="absolute top-3 left-0 right-0 h-px bg-(--color-border)"></div>
-    
-    <!-- Timeline Items -->
-    <div class="flex gap-1 overflow-x-auto pb-4 scrollbar-hide">
+    <!-- Timeline Items Container -->
+    <div class="flex gap-1 overflow-x-auto pb-4 scrollbar-hide relative">
+      <!-- Horizontal line that goes THROUGH the dots -->
+      <div class="absolute top-[5px] left-0 right-0 h-px bg-(--color-border) z-0"></div>
+      
       {items.map((item, index) => (
-        <button
-          type="button"
-          class="timeline-trigger group shrink-0 pt-6 px-3 text-left min-w-[140px] max-w-[180px] focus:outline-none"
-          data-target={`${accordionId}-${index}`}
-          data-accordion={accordionId}
+        <div
+          class="timeline-item group shrink-0 pt-8 px-3 text-left min-w-[140px] max-w-[180px] relative"
+          data-target={`${timelineId}-${index}`}
+          data-timeline={timelineId}
         >
-          <!-- Dot -->
-          <div class="absolute top-0 left-1/2 -translate-x-1/2 w-2.5 h-2.5 rounded-full bg-(--color-border) group-hover:bg-(--color-accent) group-[.active]:bg-(--color-accent) transition-colors"></div>
+          <!-- Dot (on top of line) -->
+          <div class="absolute top-0 left-1/2 -translate-x-1/2 w-2.5 h-2.5 rounded-full bg-(--color-bg) border-2 border-(--color-border) group-hover:border-(--color-accent) group-hover:bg-(--color-accent) transition-colors z-10"></div>
           
           <!-- Period -->
           <span class="block text-xs text-(--color-text-muted) mb-1 truncate">
@@ -40,55 +39,50 @@ const accordionId = `accordion-${type}-${Date.now()}`;
           </span>
           
           <!-- Title -->
-          <span class="block text-sm font-medium text-(--color-text-secondary) group-hover:text-(--color-accent) group-[.active]:text-(--color-accent) transition-colors line-clamp-2">
+          <span class="block text-sm font-medium text-(--color-text-secondary) group-hover:text-(--color-accent) transition-colors line-clamp-2 cursor-default">
             {isExperience(item) ? item.company : item.institution}
           </span>
-        </button>
+          
+          <!-- Hover Content Panel -->
+          <div
+            class="timeline-content absolute left-0 top-full mt-2 w-64 p-4 rounded-lg bg-(--color-bg-secondary) border border-(--color-border) shadow-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-20"
+          >
+            <div class="space-y-2">
+              <div class="flex items-start justify-between gap-2">
+                <h4 class="font-semibold text-(--color-text) text-sm">
+                  {isExperience(item) ? item.title : item.degree}
+                </h4>
+              </div>
+              
+              <p class="text-xs text-(--color-text-muted)">
+                {isExperience(item) ? item.period : item.period}
+              </p>
+              
+              <p class="text-sm text-(--color-text-secondary)">
+                {isExperience(item) ? `${item.company} · ${item.location}` : item.institution}
+              </p>
+              
+              {item.description && (
+                <p class="text-xs text-(--color-text-muted)">
+                  {item.description}
+                </p>
+              )}
+              
+              {isExperience(item) && item.bullets.length > 0 && (
+                <ul class="mt-2 space-y-1">
+                  {item.bullets.slice(0, 2).map((bullet) => (
+                    <li class="text-xs text-(--color-text-muted) flex items-start gap-2">
+                      <span class="text-(--color-accent) mt-0.5">•</span>
+                      {bullet}
+                    </li>
+                  ))}
+                </ul>
+              )}
+            </div>
+          </div>
+        </div>
       ))}
     </div>
-  </div>
-  
-  <!-- Content Panels -->
-  <div class="mt-4">
-    {items.map((item, index) => (
-      <div
-        id={`${accordionId}-${index}`}
-        class="timeline-content hidden p-4 rounded-lg bg-(--color-bg-secondary) border border-(--color-border) animate-fadeIn"
-        data-accordion={accordionId}
-      >
-        <div class="space-y-2">
-          <div class="flex items-start justify-between gap-2">
-            <h4 class="font-semibold text-(--color-text)">
-              {isExperience(item) ? item.title : item.degree}
-            </h4>
-            <span class="text-xs text-(--color-text-muted) whitespace-nowrap">
-              {isExperience(item) ? item.period : item.period}
-            </span>
-          </div>
-          
-          <p class="text-sm text-(--color-text-secondary)">
-            {isExperience(item) ? `${item.company} · ${item.location}` : item.institution}
-          </p>
-          
-          {item.description && (
-            <p class="text-sm text-(--color-text-muted)">
-              {item.description}
-            </p>
-          )}
-          
-          {isExperience(item) && item.bullets.length > 0 && (
-            <ul class="mt-2 space-y-1">
-              {item.bullets.map((bullet) => (
-                <li class="text-sm text-(--color-text-muted) flex items-start gap-2">
-                  <span class="text-(--color-accent) mt-0.5">•</span>
-                  {bullet}
-                </li>
-              ))}
-            </ul>
-          )}
-        </div>
-      </div>
-    ))}
   </div>
 </div>
 
@@ -101,57 +95,20 @@ const accordionId = `accordion-${type}-${Date.now()}`;
     display: none;
   }
   
-  .timeline-trigger {
+  /* Ensure hover panels don't get clipped */
+  .horizontal-timeline {
+    overflow: visible;
+  }
+  
+  .timeline-item {
     position: relative;
   }
   
-  @keyframes fadeIn {
-    from { opacity: 0; transform: translateY(-8px); }
-    to { opacity: 1; transform: translateY(0); }
+  .timeline-content {
+    pointer-events: none;
   }
   
-  .animate-fadeIn {
-    animation: fadeIn 0.2s ease-out;
+  .timeline-item:hover .timeline-content {
+    pointer-events: auto;
   }
 </style>
-
-<script>
-  function initHorizontalTimeline() {
-    const triggers = document.querySelectorAll('.timeline-trigger');
-    
-    triggers.forEach((trigger) => {
-      trigger.addEventListener('click', () => {
-        const targetId = trigger.getAttribute('data-target');
-        const accordionId = trigger.getAttribute('data-accordion');
-        
-        if (!targetId || !accordionId) return;
-        
-        // Get all triggers and contents for this accordion
-        const allTriggers = document.querySelectorAll(`.timeline-trigger[data-accordion="${accordionId}"]`);
-        const allContents = document.querySelectorAll(`.timeline-content[data-accordion="${accordionId}"]`);
-        
-        // Check if this is already active
-        const isActive = trigger.classList.contains('active');
-        
-        // Remove active from all
-        allTriggers.forEach(t => t.classList.remove('active'));
-        allContents.forEach(c => c.classList.add('hidden'));
-        
-        // If it wasn't active, activate it
-        if (!isActive) {
-          trigger.classList.add('active');
-          const target = document.getElementById(targetId);
-          if (target) {
-            target.classList.remove('hidden');
-          }
-        }
-      });
-    });
-  }
-  
-  // Run on initial load
-  initHorizontalTimeline();
-  
-  // Re-run after View Transitions
-  document.addEventListener('astro:after-swap', initHorizontalTimeline);
-</script>

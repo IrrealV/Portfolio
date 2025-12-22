@@ -50,15 +50,15 @@ const { title = SITE_INFO.title, description = SITE_INFO.description } =
   </head>
   <body class="font-sans antialiased min-h-screen">
     <!-- Main Content -->
-    <main class="max-w-3xl mx-auto px-4 sm:px-6 py-12">
+    <main class="max-w-6xl mx-auto px-6 sm:px-8 lg:px-12 py-12">
       <slot />
     </main>
 
     <!-- Footer -->
     <footer class="border-t border-(--color-border) py-8">
-      <div class="max-w-3xl mx-auto px-4 sm:px-6 text-center">
+      <div class="max-w-6xl mx-auto px-6 sm:px-8 lg:px-12 text-center">
         <p class="text-sm text-(--color-text-muted)">
-          © {new Date().getFullYear()} Victor Heras
+          © {new Date().getFullYear()} Victor Manuel Heras
         </p>
       </div>
     </footer>
