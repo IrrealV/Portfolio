@@ -186,170 +186,138 @@ import {
 </Layout>
 
 <script>
-  // 🎮 GRAVITY EASTER EGG
+  // 🎮 SPIN EASTER EGG
   // Click the logo on the back of the flipped profile photo to activate!
 
-  function initGravityEasterEgg() {
+  function initSpinEasterEgg() {
     const trigger = document.getElementById('gravity-trigger');
     if (!trigger) return;
 
-    let isGravityActive = false;
+    let isSpinning = false;
 
     trigger.addEventListener('click', (e) => {
       e.preventDefault();
 
-      if (isGravityActive) {
-        // Reset everything
-        resetGravity();
-        return;
-      }
+      if (isSpinning) return; // Prevent spam clicking
 
-      isGravityActive = true;
-      activateGravity();
+      isSpinning = true;
+      activateSpin();
     });
 
-    function activateGravity() {
-      // Get all major elements to apply gravity to
-      const elements = document.querySelectorAll(
-        'section, header, .flip-card, h1, h2, p, a:not(#gravity-trigger), button:not(#gravity-trigger), span, div.flex > div, .timeline-item, img:not(.flip-card-back img)',
-      );
+    function activateSpin() {
+      // Play a fun sound (using Web Audio API for a "boing" effect)
+      playBoingSound();
 
-      const bodies: Array<{
-        el: HTMLElement;
-        x: number;
-        y: number;
-        vx: number;
-        vy: number;
-        rotation: number;
-        vr: number;
-        originalTransform: string;
-        originalPosition: string;
-      }> = [];
+      // Add spin class to body - this will trigger CSS animation
+      document.body.classList.add('spinning-madness');
 
-      elements.forEach((el) => {
-        const element = el as HTMLElement;
-        const rect = element.getBoundingClientRect();
-
-        // Skip very small or hidden elements
-        if (rect.width < 20 || rect.height < 20) return;
-
-        // Skip nested elements (only apply to first-level visible elements)
-        if (element.closest('.falling-element')) return;
-
-        bodies.push({
-          el: element,
-          x: rect.left + window.scrollX,
-          y: rect.top + window.scrollY,
-          vx: (Math.random() - 0.5) * 5,
-          vy: 0,
-          rotation: 0,
-          vr: (Math.random() - 0.5) * 10,
-          originalTransform: element.style.transform,
-          originalPosition: element.style.position,
-        });
-
-        element.classList.add('falling-element');
-        element.style.position = 'fixed';
-        element.style.zIndex = '9999';
-        element.style.left = rect.left + 'px';
-        element.style.top = rect.top + 'px';
-        element.style.width = rect.width + 'px';
-        element.style.transition = 'none';
-      });
-
-      const gravity = 0.5;
-      const bounce = 0.6;
-      const friction = 0.99;
-      const floor = window.innerHeight - 50;
-
-      let animationId: number = 0;
-
-      function animate() {
-        bodies.forEach((body) => {
-          // Apply gravity
-          body.vy += gravity;
-
-          // Apply velocity
-          body.x += body.vx;
-          body.y += body.vy;
-          body.rotation += body.vr;
-
-          // Friction
-          body.vx *= friction;
-          body.vr *= friction;
-
-          // Floor collision
-          const rect = body.el.getBoundingClientRect();
-          if (body.y + rect.height > floor) {
-            body.y = floor - rect.height;
-            body.vy = -body.vy * bounce;
-            body.vr *= bounce;
-
-            // Stop bouncing if velocity is low
-            if (Math.abs(body.vy) < 1) {
-              body.vy = 0;
-            }
-          }
-
-          // Wall collision
-          if (body.x < 0) {
-            body.x = 0;
-            body.vx = -body.vx * bounce;
-          }
-          if (body.x + rect.width > window.innerWidth) {
-            body.x = window.innerWidth - rect.width;
-            body.vx = -body.vx * bounce;
-          }
-
-          // Apply transforms
-          body.el.style.left = body.x + 'px';
-          body.el.style.top = body.y + 'px';
-          body.el.style.transform = `rotate(${body.rotation}deg)`;
-        });
-
-        animationId = requestAnimationFrame(animate);
-      }
-
-      animate();
-
-      // Store animation ID for cleanup
-      (window as any).gravityAnimationId = animationId;
-      (window as any).gravityBodies = bodies;
+      // Remove class after animation completes
+      setTimeout(() => {
+        document.body.classList.remove('spinning-madness');
+        isSpinning = false;
+      }, 1500);
     }
 
-    function resetGravity() {
-      isGravityActive = false;
+    function playBoingSound() {
+      try {
+        const audioContext = new (
+          window.AudioContext || (window as any).webkitAudioContext
+        )();
 
-      // Cancel animation
-      if ((window as any).gravityAnimationId) {
-        cancelAnimationFrame((window as any).gravityAnimationId);
+        // Create oscillator for "boing" effect
+        const oscillator = audioContext.createOscillator();
+        const gainNode = audioContext.createGain();
+
+        oscillator.connect(gainNode);
+        gainNode.connect(audioContext.destination);
+
+        // Start high, drop low (cartoon spring sound)
+        oscillator.frequency.setValueAtTime(800, audioContext.currentTime);
+        oscillator.frequency.exponentialRampToValueAtTime(
+          150,
+          audioContext.currentTime + 0.15,
+        );
+        oscillator.frequency.exponentialRampToValueAtTime(
+          400,
+          audioContext.currentTime + 0.3,
+        );
+        oscillator.frequency.exponentialRampToValueAtTime(
+          100,
+          audioContext.currentTime + 0.5,
+        );
+
+        // Volume envelope
+        gainNode.gain.setValueAtTime(0.3, audioContext.currentTime);
+        gainNode.gain.exponentialRampToValueAtTime(
+          0.01,
+          audioContext.currentTime + 0.5,
+        );
+
+        oscillator.type = 'sine';
+        oscillator.start(audioContext.currentTime);
+        oscillator.stop(audioContext.currentTime + 0.5);
+      } catch (e) {
+        // Audio not supported, just do the visual effect silently
       }
-
-      // Reset all elements
-      const bodies = (window as any).gravityBodies || [];
-      bodies.forEach((body: any) => {
-        body.el.classList.remove('falling-element');
-        body.el.style.position = body.originalPosition;
-        body.el.style.transform = body.originalTransform;
-        body.el.style.left = '';
-        body.el.style.top = '';
-        body.el.style.width = '';
-        body.el.style.zIndex = '';
-        body.el.style.transition = '';
-      });
-
-      // Reload page to fully reset
-      window.location.reload();
     }
   }
 
   // Initialize on page load and after View Transitions
-  initGravityEasterEgg();
-  document.addEventListener('astro:after-swap', initGravityEasterEgg);
+  initSpinEasterEgg();
+  document.addEventListener('astro:after-swap', initSpinEasterEgg);
 </script>
 
 <style>
-  .falling-element {
-    pointer-events: none !important;
+  /* Spin animation keyframes */
+  @keyframes spinAround {
+    0% {
+      transform: rotate(0deg) scale(1);
+    }
+    25% {
+      transform: rotate(90deg) scale(1.02);
+    }
+    50% {
+      transform: rotate(180deg) scale(1);
+    }
+    75% {
+      transform: rotate(270deg) scale(1.02);
+    }
+    100% {
+      transform: rotate(360deg) scale(1);
+    }
+  }
+
+  @keyframes wiggle {
+    0%,
+    100% {
+      transform: rotate(0deg);
+    }
+    25% {
+      transform: rotate(-5deg);
+    }
+    75% {
+      transform: rotate(5deg);
+    }
+  }
+
+  /* When spinning-madness is active, spin/wiggle all major elements */
+  :global(.spinning-madness) main {
+    animation: spinAround 1.2s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+    transform-origin: center center;
+  }
+
+  :global(.spinning-madness) header,
+  :global(.spinning-madness) section,
+  :global(.spinning-madness) footer {
+    animation: wiggle 0.3s ease-in-out 4;
+  }
+
+  :global(.spinning-madness) h1,
+  :global(.spinning-madness) h2 {
+    animation: wiggle 0.2s ease-in-out 6;
+  }
+
+  :global(.spinning-madness) .flip-card {
+    animation: spinAround 1s cubic-bezier(0.68, -0.55, 0.265, 1.55);
   }
 </style>
