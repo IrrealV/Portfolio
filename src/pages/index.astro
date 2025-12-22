@@ -208,14 +208,21 @@ import {
       // Play a cartoon spin whoosh sound
       playCartoonSpinSound();
 
-      // Add spin class to body - this will trigger CSS animation
-      document.body.classList.add('spinning-madness');
+      // Get the main element and apply animation directly
+      const main = document.querySelector('main');
+      if (main) {
+        // Apply the spin animation directly via JS
+        main.style.transformOrigin = 'center center';
+        main.style.animation = 'smoothSpin 0.8s ease-in-out forwards';
 
-      // Remove class after animation completes
-      setTimeout(() => {
-        document.body.classList.remove('spinning-madness');
+        // Remove animation after it completes
+        setTimeout(() => {
+          main.style.animation = '';
+          isSpinning = false;
+        }, 900);
+      } else {
         isSpinning = false;
-      }, 1500);
+      }
     }
 
     function playCartoonSpinSound() {
@@ -287,25 +294,3 @@ import {
   initSpinEasterEgg();
   document.addEventListener('astro:after-swap', initSpinEasterEgg);
 </script>
-
-<style>
-  /* Smooth 360° spin animation */
-  @keyframes smoothSpin {
-    0% {
-      transform: rotate(0deg);
-    }
-    100% {
-      transform: rotate(360deg);
-    }
-  }
-
-  /* When spinning-madness is active, EVERYTHING spins 360° */
-  :global(.spinning-madness) {
-    overflow: hidden;
-  }
-
-  :global(.spinning-madness) main {
-    animation: smoothSpin 0.8s ease-in-out;
-    transform-origin: center center;
-  }
-</style>
