@@ -1,0 +1,185 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import { PROJECTS } from '../../data/info';
+import type { GetStaticPaths } from 'astro';
+
+export const getStaticPaths = (() => {
+  return PROJECTS.map((project) => ({
+    params: { slug: project.slug },
+    props: { project },
+  }));
+}) satisfies GetStaticPaths;
+
+const { project } = Astro.props;
+
+// Redirect to home if project is coming soon
+if (project.isComingSoon) {
+  return Astro.redirect('/');
+}
+---
+
+<Layout title={`${project.title} | Victor Heras`} description={project.tagline}>
+  <article class="max-w-none">
+    <!-- Back button -->
+    <a
+      href="/#projects"
+      class="inline-flex items-center gap-2 text-sm text-(--color-text-muted) hover:text-(--color-accent) transition-colors mb-8"
+    >
+      <svg
+        class="w-4 h-4"
+        fill="none"
+        viewBox="0 0 24 24"
+        stroke="currentColor"
+        stroke-width="2"
+      >
+        <path
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
+      </svg>
+      Volver a proyectos
+    </a>
+
+    <!-- Hero -->
+    <header class="mb-12">
+      <h1
+        class="text-3xl sm:text-4xl font-bold text-(--color-text) mb-3"
+        transition:name={`title-${project.slug}`}
+      >
+        {project.title}
+      </h1>
+      <p class="text-lg text-(--color-text-secondary)">
+        {project.tagline}
+      </p>
+
+      {
+        project.url && (
+          <a
+            href={project.url}
+            target="_blank"
+            rel="noopener noreferrer"
+            class="inline-flex items-center gap-2 mt-4 px-4 py-2 bg-(--color-accent) text-white font-medium rounded-lg hover:opacity-90 transition-opacity"
+          >
+            Visitar proyecto
+            <svg
+              class="w-4 h-4"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+              stroke-width="2"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"
+              />
+            </svg>
+          </a>
+        )
+      }
+    </header>
+
+    <!-- Image with View Transition -->
+    {
+      project.image && (
+        <div class="mb-12 rounded-xl overflow-hidden border border-(--color-border)">
+          <img
+            src={project.image}
+            alt={project.title}
+            class="w-full h-auto"
+            transition:name={`img-${project.slug}`}
+          />
+        </div>
+      )
+    }
+
+    <!-- Problem -->
+    <section class="mb-10">
+      <h2 class="text-xl font-semibold text-(--color-text) mb-4">
+        El Problema
+      </h2>
+      <p class="text-(--color-text-secondary) leading-relaxed">
+        {project.problem}
+      </p>
+    </section>
+
+    <!-- Solution -->
+    <section class="mb-10">
+      <h2 class="text-xl font-semibold text-(--color-text) mb-4">
+        La Solución
+      </h2>
+      <p class="text-(--color-text-secondary) leading-relaxed">
+        {project.solution}
+      </p>
+    </section>
+
+    <!-- Features -->
+    {
+      project.features.length > 0 && (
+        <section class="mb-10">
+          <h2 class="text-xl font-semibold text-(--color-text) mb-4">
+            Características
+          </h2>
+          <ul class="space-y-2">
+            {project.features.map((feature) => (
+              <li class="flex items-start gap-3 text-(--color-text-secondary)">
+                <svg
+                  class="w-5 h-5 text-(--color-accent) mt-0.5 shrink-0"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                  stroke-width="2"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    d="M5 13l4 4L19 7"
+                  />
+                </svg>
+                {feature}
+              </li>
+            ))}
+          </ul>
+        </section>
+      )
+    }
+
+    <!-- Stack -->
+    <section class="mb-10">
+      <h2 class="text-xl font-semibold text-(--color-text) mb-4">
+        Tecnologías
+      </h2>
+      <div class="flex flex-wrap gap-2">
+        {
+          project.stack.map((tech) => (
+            <span class="px-3 py-1.5 text-sm font-medium rounded-lg bg-(--color-bg-tertiary) text-(--color-text-secondary) border border-(--color-border)">
+              {tech}
+            </span>
+          ))
+        }
+      </div>
+    </section>
+
+    <!-- Back to projects -->
+    <div class="pt-8 border-t border-(--color-border)">
+      <a
+        href="/#projects"
+        class="inline-flex items-center gap-2 text-(--color-accent) hover:underline"
+      >
+        <svg
+          class="w-4 h-4"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke="currentColor"
+          stroke-width="2"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
+        </svg>
+        Ver todos los proyectos
+      </a>
+    </div>
+  </article>
+</Layout>

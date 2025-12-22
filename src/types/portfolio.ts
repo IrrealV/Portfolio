@@ -1,16 +1,56 @@
+// ============================================
+// TECH & STACK
+// ============================================
+
 export interface TechItem {
   name: string;
-  icon?: string; // Opcional, por si usamos iconos SVG luego
-  colorClass: string; // Clase de Tailwind para el color (separación de estilos)
+  icon?: string;
+  colorClass?: string;
 }
 
-export interface ProjectItem {
-  id: string;
+// ============================================
+// EXPERIENCE & EDUCATION
+// ============================================
+
+export interface Experience {
   title: string;
-  url?: string;
+  company: string;
+  location: string;
+  period: string;
+  description: string;
+  bullets: string[];
+}
+
+export interface Education {
+  degree: string;
+  institution: string;
+  period: string;
   description?: string;
-  badge?: string;
-  badgeColor?: string;
+}
+
+// ============================================
+// PROJECTS
+// ============================================
+
+export interface Project {
+  slug: string;
+  title: string;
+  tagline: string;
+  problem: string;
+  solution: string;
+  stack: string[];
+  features: string[];
+  image?: string;
+  url?: string;
   isComingSoon?: boolean;
-  colSpan?: 1 | 2 | 3; // Control del Grid Bento
+}
+
+// ============================================
+// SOCIAL
+// ============================================
+
+export interface SocialLink {
+  name: string;
+  url: string;
+  icon: string;
 }

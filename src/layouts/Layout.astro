@@ -1,47 +1,71 @@
 ---
-// Importamos fuente globalmente
-import '@fontsource/inter';
+import '@fontsource/inter/400.css';
+import '@fontsource/inter/500.css';
+import '@fontsource/inter/600.css';
+import '@fontsource/inter/700.css';
+import '../styles/global.css';
+import { ViewTransitions } from 'astro:transitions';
+import ThemeToggle from '../components/ui/ThemeToggle.astro';
 import { SITE_INFO } from '../data/info';
 
 interface Props {
   title?: string;
+  description?: string;
 }
 
-const { title = SITE_INFO.title } = Astro.props;
+const { title = SITE_INFO.title, description = SITE_INFO.description } =
+  Astro.props;
 ---
 
 <!doctype html>
-<html lang="es" class="dark scroll-smooth">
+<html lang="es" class="dark">
   <head>
     <meta charset="UTF-8" />
-    <meta name="description" content={SITE_INFO.description} />
-    <meta name="viewport" content="width=device-width" />
+    <meta name="description" content={description} />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#0a0a0b" />
+
+    <!-- Open Graph -->
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:type" content="website" />
+
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="generator" content={Astro.generator} />
     <title>{title}</title>
+
+    <ViewTransitions />
+
+    <!-- Theme hydration script (prevents flash) -->
+    <script is:inline>
+      (function () {
+        const theme = localStorage.getItem('theme');
+        if (theme === 'light') {
+          document.documentElement.classList.remove('dark');
+        } else if (theme === 'dark' || !theme) {
+          document.documentElement.classList.add('dark');
+        }
+      })();
+    </script>
   </head>
-  <body
-    class="bg-black text-neutral-100 font-inter antialiased selection:bg-neutral-700 selection:text-white"
-  >
-    <main class="max-w-[1000px] mx-auto px-4 py-12 md:py-20">
+  <body class="font-sans antialiased min-h-screen">
+    <!-- Main Content -->
+    <main class="max-w-3xl mx-auto px-4 sm:px-6 py-12">
       <slot />
     </main>
+
+    <!-- Footer -->
+    <footer class="border-t border-(--color-border) py-8">
+      <div class="max-w-3xl mx-auto px-4 sm:px-6 text-center">
+        <p class="text-sm text-(--color-text-muted)">
+          © {new Date().getFullYear()} Victor Heras
+        </p>
+      </div>
+    </footer>
+
+    <!-- Floating Theme Toggle -->
+    <div class="fixed bottom-6 right-6 z-50">
+      <ThemeToggle />
+    </div>
   </body>
 </html>
-
-<style is:global>
-  /* Scrollbar oscura personalizada */
-  ::-webkit-scrollbar {
-    width: 10px;
-  }
-  ::-webkit-scrollbar-track {
-    background: #000;
-  }
-  ::-webkit-scrollbar-thumb {
-    background: #333;
-    border-radius: 5px;
-  }
-  ::-webkit-scrollbar-thumb:hover {
-    background: #555;
-  }
-</style>

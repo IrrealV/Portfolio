@@ -1,0 +1,14 @@
+---
+interface Props {
+  name: string;
+  colorClass?: string;
+}
+
+const { name, colorClass = 'text-(--color-text)' } = Astro.props;
+---
+
+<span
+  class={`inline-flex items-center gap-1.5 px-3 py-1.5 text-sm font-medium rounded-lg bg-(--color-bg-tertiary) border border-(--color-border) transition-colors hover:border-(--color-border-hover) ${colorClass}`}
+>
+  {name}
+</span>

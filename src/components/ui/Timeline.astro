@@ -1,0 +1,157 @@
+---
+import type { Experience, Education } from '../../types/portfolio';
+
+interface Props {
+  items: (Experience | Education)[];
+  type: 'experience' | 'education';
+}
+
+const { items, type } = Astro.props;
+
+function isExperience(item: Experience | Education): item is Experience {
+  return 'company' in item;
+}
+
+// Generate unique IDs for accordion functionality
+const accordionId = `accordion-${type}-${Date.now()}`;
+---
+
+<div class="horizontal-timeline">
+  <!-- Timeline Track -->
+  <div class="relative">
+    <!-- Horizontal line -->
+    <div class="absolute top-3 left-0 right-0 h-px bg-(--color-border)"></div>
+    
+    <!-- Timeline Items -->
+    <div class="flex gap-1 overflow-x-auto pb-4 scrollbar-hide">
+      {items.map((item, index) => (
+        <button
+          type="button"
+          class="timeline-trigger group shrink-0 pt-6 px-3 text-left min-w-[140px] max-w-[180px] focus:outline-none"
+          data-target={`${accordionId}-${index}`}
+          data-accordion={accordionId}
+        >
+          <!-- Dot -->
+          <div class="absolute top-0 left-1/2 -translate-x-1/2 w-2.5 h-2.5 rounded-full bg-(--color-border) group-hover:bg-(--color-accent) group-[.active]:bg-(--color-accent) transition-colors"></div>
+          
+          <!-- Period -->
+          <span class="block text-xs text-(--color-text-muted) mb-1 truncate">
+            {isExperience(item) ? item.period.split('–')[0] : item.period.split('–')[0]}
+          </span>
+          
+          <!-- Title -->
+          <span class="block text-sm font-medium text-(--color-text-secondary) group-hover:text-(--color-accent) group-[.active]:text-(--color-accent) transition-colors line-clamp-2">
+            {isExperience(item) ? item.company : item.institution}
+          </span>
+        </button>
+      ))}
+    </div>
+  </div>
+  
+  <!-- Content Panels -->
+  <div class="mt-4">
+    {items.map((item, index) => (
+      <div
+        id={`${accordionId}-${index}`}
+        class="timeline-content hidden p-4 rounded-lg bg-(--color-bg-secondary) border border-(--color-border) animate-fadeIn"
+        data-accordion={accordionId}
+      >
+        <div class="space-y-2">
+          <div class="flex items-start justify-between gap-2">
+            <h4 class="font-semibold text-(--color-text)">
+              {isExperience(item) ? item.title : item.degree}
+            </h4>
+            <span class="text-xs text-(--color-text-muted) whitespace-nowrap">
+              {isExperience(item) ? item.period : item.period}
+            </span>
+          </div>
+          
+          <p class="text-sm text-(--color-text-secondary)">
+            {isExperience(item) ? `${item.company} · ${item.location}` : item.institution}
+          </p>
+          
+          {item.description && (
+            <p class="text-sm text-(--color-text-muted)">
+              {item.description}
+            </p>
+          )}
+          
+          {isExperience(item) && item.bullets.length > 0 && (
+            <ul class="mt-2 space-y-1">
+              {item.bullets.map((bullet) => (
+                <li class="text-sm text-(--color-text-muted) flex items-start gap-2">
+                  <span class="text-(--color-accent) mt-0.5">•</span>
+                  {bullet}
+                </li>
+              ))}
+            </ul>
+          )}
+        </div>
+      </div>
+    ))}
+  </div>
+</div>
+
+<style>
+  .scrollbar-hide {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;
+  }
+  
+  .timeline-trigger {
+    position: relative;
+  }
+  
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-8px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  
+  .animate-fadeIn {
+    animation: fadeIn 0.2s ease-out;
+  }
+</style>
+
+<script>
+  function initHorizontalTimeline() {
+    const triggers = document.querySelectorAll('.timeline-trigger');
+    
+    triggers.forEach((trigger) => {
+      trigger.addEventListener('click', () => {
+        const targetId = trigger.getAttribute('data-target');
+        const accordionId = trigger.getAttribute('data-accordion');
+        
+        if (!targetId || !accordionId) return;
+        
+        // Get all triggers and contents for this accordion
+        const allTriggers = document.querySelectorAll(`.timeline-trigger[data-accordion="${accordionId}"]`);
+        const allContents = document.querySelectorAll(`.timeline-content[data-accordion="${accordionId}"]`);
+        
+        // Check if this is already active
+        const isActive = trigger.classList.contains('active');
+        
+        // Remove active from all
+        allTriggers.forEach(t => t.classList.remove('active'));
+        allContents.forEach(c => c.classList.add('hidden'));
+        
+        // If it wasn't active, activate it
+        if (!isActive) {
+          trigger.classList.add('active');
+          const target = document.getElementById(targetId);
+          if (target) {
+            target.classList.remove('hidden');
+          }
+        }
+      });
+    });
+  }
+  
+  // Run on initial load
+  initHorizontalTimeline();
+  
+  // Re-run after View Transitions
+  document.addEventListener('astro:after-swap', initHorizontalTimeline);
+</script>

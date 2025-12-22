@@ -1,92 +1,119 @@
 ---
 import Layout from '../layouts/Layout.astro';
-import BentoItem from '../components/ui/BentoItem.astro';
-import { STACK, PROJECTS } from '../data/info';
+import Section from '../components/ui/Section.astro';
+import Timeline from '../components/ui/Timeline.astro';
+import ProjectCard from '../components/ui/ProjectCard.astro';
+import TechPill from '../components/ui/TechPill.astro';
+import Typewriter from '../components/ui/Typewriter.astro';
+import {
+  SITE_INFO,
+  SOCIALS,
+  STACK,
+  EXPERIENCE,
+  EDUCATION,
+  PROJECTS,
+} from '../data/info';
 ---
 
 <Layout>
-  <header class="mb-16 flex flex-col gap-6">
-    <div>
-      <h1 class="text-5xl font-bold tracking-tight text-white mb-2">
-        Víctor Heras
-      </h1>
-      <h2 class="text-xl text-neutral-400 font-medium">
-        SysAdmin & Fullstack Developer
-      </h2>
-    </div>
-    <p class="text-neutral-400 max-w-lg leading-relaxed text-lg">
-      Estudiante de Ingeniería Telemática (UJA). Transformando café en código
-      robusto y despliegues eficientes.
+  <!-- Hero Section -->
+  <header class="pb-12 border-b border-(--color-border)">
+    <h1
+      class="text-4xl sm:text-5xl font-bold tracking-tight mb-3 text-(--color-text)"
+    >
+      Víctor Heras
+    </h1>
+    <p
+      class="text-2xl sm:text-3xl font-semibold text-(--color-accent) mb-4 min-h-10"
+    >
+      <Typewriter />
     </p>
+
+    <!-- Social Links -->
+    <div class="flex gap-3 mb-6">
+      {
+        SOCIALS.map((social) => (
+          <a
+            href={social.url}
+            target="_blank"
+            rel="noopener noreferrer"
+            class="text-sm font-medium text-(--color-text-secondary) hover:text-(--color-accent) transition-colors"
+          >
+            {social.name} →
+          </a>
+        ))
+      }
+    </div>
   </header>
 
-  <section class="grid grid-cols-1 md:grid-cols-3 gap-4 auto-rows-[200px]">
-    {
-      PROJECTS.map((project) => (
-        <BentoItem
-          colSpan={project.colSpan}
-          href={project.url}
-          class={
-            project.id === 'contact'
-              ? 'items-center justify-center bg-blue-900/10 border-blue-500/20 hover:bg-blue-900/20'
-              : ''
-          }
-        >
-          {/* LÓGICA DE RENDERIZADO SEGÚN EL TIPO DE TARJETA (Clean UI) */}
+  <!-- Sobre mí -->
+  <Section title="Sobre mí" id="about">
+    <div class="prose prose-neutral dark:prose-invert max-w-none">
+      <p class="text-(--color-text-secondary) leading-relaxed">
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod
+        tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim
+        veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
+        commodo consequat.
+      </p>
+      <p class="text-(--color-text-secondary) leading-relaxed">
+        Duis aute irure dolor in reprehenderit in voluptate velit esse cillum
+        dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
+        proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+      </p>
+    </div>
+  </Section>
 
-          {/* CASO 1: STACK */}
-          {project.id === 'stack' && (
-            <>
-              <h3 class="text-neutral-500 text-xs font-bold uppercase tracking-widest mb-4">
-                Tech Stack
-              </h3>
-              <div class="flex flex-wrap gap-2">
-                {STACK.map((tech) => (
-                  <span
-                    class={`px-3 py-1.5 bg-neutral-800/50 border border-neutral-700 rounded-lg text-sm font-medium ${tech.colorClass}`}
-                  >
-                    {tech.name}
-                  </span>
-                ))}
-              </div>
-            </>
-          )}
+  <!-- Experiencia -->
+  <Section title="Experiencia" id="experience">
+    <Timeline items={EXPERIENCE} type="experience" />
+  </Section>
 
-          {/* CASO 2: PROYECTOS NORMALES */}
-          {project.id !== 'stack' && project.id !== 'contact' && (
-            <>
-              <div class="flex justify-between items-start w-full z-10">
-                {project.badge && (
-                  <span
-                    class={`px-2 py-1 text-xs font-semibold rounded-full border ${project.badgeColor}`}
-                  >
-                    {project.badge}
-                  </span>
-                )}
-              </div>
+  <!-- Educación -->
+  <Section title="Educación" id="education">
+    <Timeline items={EDUCATION} type="education" />
+  </Section>
 
-              <div class="z-10 mt-auto">
-                <h3 class="text-xl font-bold text-white group-hover:text-blue-400 transition-colors">
-                  {project.title}
-                </h3>
-                {project.description && (
-                  <p class="text-neutral-400 text-sm mt-1">
-                    {project.description}
-                  </p>
-                )}
-              </div>
-            </>
-          )}
+  <!-- Proyectos -->
+  <Section title="Proyectos" id="projects">
+    <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+      {PROJECTS.map((project) => <ProjectCard project={project} />)}
+    </div>
+  </Section>
 
-          {/* CASO 3: CONTACTO */}
-          {project.id === 'contact' && (
-            <div class="text-center">
-              <p class="text-blue-400 font-bold text-lg">¿Hablamos?</p>
-              <p class="text-blue-300/50 text-sm">Mándame un email &rarr;</p>
-            </div>
-          )}
-        </BentoItem>
-      ))
-    }
+  <!-- Stack -->
+  <Section title="Stack" id="stack">
+    <div class="flex flex-wrap gap-2">
+      {
+        STACK.map((tech) => (
+          <TechPill name={tech.name} colorClass={tech.colorClass} />
+        ))
+      }
+    </div>
+  </Section>
+
+  <!-- Contact CTA -->
+  <section class="py-16 text-center border-t border-(--color-border)">
+    <h2 class="text-2xl font-bold mb-4 text-(--color-text)">¿Hablamos?</h2>
+    <p class="text-(--color-text-secondary) mb-6">
+      Estoy abierto a nuevas oportunidades y colaboraciones.
+    </p>
+    <a
+      href={`mailto:${SITE_INFO.email}`}
+      class="inline-flex items-center gap-2 px-6 py-3 bg-(--color-accent) text-white font-medium rounded-lg hover:opacity-90 transition-opacity"
+    >
+      Contáctame
+      <svg
+        class="w-4 h-4"
+        fill="none"
+        viewBox="0 0 24 24"
+        stroke="currentColor"
+        stroke-width="2"
+      >
+        <path
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          d="M14 5l7 7m0 0l-7 7m7-7H3"></path>
+      </svg>
+    </a>
   </section>
 </Layout>
