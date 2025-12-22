@@ -12,77 +12,81 @@ function isExperience(item: Experience | Education): item is Experience {
   return 'company' in item;
 }
 
-// Generate unique IDs for hover functionality
-const timelineId = `timeline-${type}-${Date.now()}`;
+const timelineId = `timeline-${type}`;
 ---
 
-<div class="horizontal-timeline">
-  <!-- Timeline Track -->
-  <div class="relative">
-    <!-- Timeline Items Container -->
-    <div class="flex gap-1 overflow-x-auto pb-4 scrollbar-hide relative">
+<div class="timeline-wrapper" id={timelineId}>
+  <!-- Timeline Track with horizontal scroll -->
+  <div class="overflow-x-auto pb-4 scrollbar-hide">
+    <div class="flex gap-1 relative min-w-max">
       <!-- Horizontal line that goes THROUGH the dots -->
       <div class="absolute top-[5px] left-0 right-0 h-px bg-(--color-border) z-0"></div>
       
       {items.map((item, index) => (
-        <div
-          class="timeline-item group shrink-0 pt-8 px-3 text-left min-w-[140px] max-w-[180px] relative"
-          data-target={`${timelineId}-${index}`}
-          data-timeline={timelineId}
+        <button
+          type="button"
+          class="timeline-item group shrink-0 pt-8 px-2 text-left min-w-[110px] max-w-[140px] relative cursor-pointer bg-transparent border-none"
+          data-index={index}
+          aria-expanded="false"
+          aria-controls={`${timelineId}-panel-${index}`}
         >
           <!-- Dot (on top of line) -->
-          <div class="absolute top-0 left-1/2 -translate-x-1/2 w-2.5 h-2.5 rounded-full bg-(--color-bg) border-2 border-(--color-border) group-hover:border-(--color-accent) group-hover:bg-(--color-accent) transition-colors z-10"></div>
+          <div class="absolute top-0 left-1/2 -translate-x-1/2 w-3 h-3 rounded-full bg-(--color-bg) border-2 border-(--color-border) group-hover:border-(--color-accent) group-hover:bg-(--color-accent) group-focus:border-(--color-accent) group-focus:bg-(--color-accent) transition-all duration-300 z-10"></div>
           
           <!-- Period -->
-          <span class="block text-xs text-(--color-text-muted) mb-1 truncate">
-            {isExperience(item) ? item.period.split('–')[0] : item.period.split('–')[0]}
+          <span class="block text-xs text-(--color-text-muted) mb-1">
+            {isExperience(item) ? item.period.split('–')[0].trim() : item.period.split('–')[0].trim()}
           </span>
           
           <!-- Title -->
-          <span class="block text-sm font-medium text-(--color-text-secondary) group-hover:text-(--color-accent) transition-colors line-clamp-2 cursor-default">
+          <span class="block text-sm font-medium text-(--color-text-secondary) group-hover:text-(--color-accent) group-focus:text-(--color-accent) transition-colors line-clamp-2">
             {isExperience(item) ? item.company : item.institution}
           </span>
-          
-          <!-- Hover Content Panel -->
-          <div
-            class="timeline-content absolute left-0 top-full mt-2 w-64 p-4 rounded-lg bg-(--color-bg-secondary) border border-(--color-border) shadow-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-20"
-          >
-            <div class="space-y-2">
-              <div class="flex items-start justify-between gap-2">
-                <h4 class="font-semibold text-(--color-text) text-sm">
-                  {isExperience(item) ? item.title : item.degree}
-                </h4>
-              </div>
-              
-              <p class="text-xs text-(--color-text-muted)">
-                {isExperience(item) ? item.period : item.period}
-              </p>
-              
-              <p class="text-sm text-(--color-text-secondary)">
-                {isExperience(item) ? `${item.company} · ${item.location}` : item.institution}
-              </p>
-              
-              {item.description && (
-                <p class="text-xs text-(--color-text-muted)">
-                  {item.description}
-                </p>
-              )}
-              
-              {isExperience(item) && item.bullets.length > 0 && (
-                <ul class="mt-2 space-y-1">
-                  {item.bullets.slice(0, 2).map((bullet) => (
-                    <li class="text-xs text-(--color-text-muted) flex items-start gap-2">
-                      <span class="text-(--color-accent) mt-0.5">•</span>
-                      {bullet}
-                    </li>
-                  ))}
-                </ul>
-              )}
-            </div>
-          </div>
-        </div>
+        </button>
       ))}
     </div>
+  </div>
+
+  <!-- Panels Container (outside the scroll area) -->
+  <div class="panels-container relative mt-2 min-h-0">
+    {items.map((item, index) => (
+      <div
+        id={`${timelineId}-panel-${index}`}
+        class="timeline-panel hidden absolute left-0 right-0 w-full max-w-sm p-4 rounded-xl bg-(--color-bg-secondary) border border-(--color-border) shadow-xl z-50"
+        data-panel-index={index}
+      >
+        <div class="space-y-2">
+          <h4 class="font-semibold text-(--color-text) text-base">
+            {isExperience(item) ? item.title : item.degree}
+          </h4>
+          
+          <p class="text-xs text-(--color-accent) font-medium">
+            {isExperience(item) ? item.period : item.period}
+          </p>
+          
+          <p class="text-sm text-(--color-text-secondary)">
+            {isExperience(item) ? `${item.company} · ${item.location}` : item.institution}
+          </p>
+          
+          {item.description && (
+            <p class="text-sm text-(--color-text-muted) leading-relaxed">
+              {item.description}
+            </p>
+          )}
+          
+          {isExperience(item) && item.bullets.length > 0 && (
+            <ul class="mt-3 space-y-1.5">
+              {item.bullets.slice(0, 3).map((bullet) => (
+                <li class="text-sm text-(--color-text-muted) flex items-start gap-2">
+                  <span class="text-(--color-accent) shrink-0">→</span>
+                  <span>{bullet}</span>
+                </li>
+              ))}
+            </ul>
+          )}
+        </div>
+      </div>
+    ))}
   </div>
 </div>
 
@@ -95,20 +99,72 @@ const timelineId = `timeline-${type}-${Date.now()}`;
     display: none;
   }
   
-  /* Ensure hover panels don't get clipped */
-  .horizontal-timeline {
-    overflow: visible;
+  .timeline-panel.active {
+    display: block;
+    animation: fadeIn 0.2s ease-out;
   }
   
-  .timeline-item {
-    position: relative;
-  }
-  
-  .timeline-content {
-    pointer-events: none;
-  }
-  
-  .timeline-item:hover .timeline-content {
-    pointer-events: auto;
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-8px); }
+    to { opacity: 1; transform: translateY(0); }
   }
 </style>
+
+<script>
+  function initTimelines() {
+    document.querySelectorAll('.timeline-wrapper').forEach((wrapper) => {
+      const items = wrapper.querySelectorAll('.timeline-item');
+      const panels = wrapper.querySelectorAll('.timeline-panel');
+      
+      let activeIndex: number | null = null;
+      let hideTimeout: ReturnType<typeof setTimeout> | null = null;
+      
+      function showPanel(index: number) {
+        if (hideTimeout) clearTimeout(hideTimeout);
+        
+        panels.forEach((panel, i) => {
+          if (i === index) {
+            panel.classList.add('active');
+          } else {
+            panel.classList.remove('active');
+          }
+        });
+        
+        items.forEach((item, i) => {
+          item.setAttribute('aria-expanded', i === index ? 'true' : 'false');
+        });
+        
+        activeIndex = index;
+      }
+      
+      function hidePanel() {
+        hideTimeout = setTimeout(() => {
+          panels.forEach(panel => panel.classList.remove('active'));
+          items.forEach(item => item.setAttribute('aria-expanded', 'false'));
+          activeIndex = null;
+        }, 150);
+      }
+      
+      items.forEach((item) => {
+        const index = parseInt(item.getAttribute('data-index') || '0', 10);
+        
+        item.addEventListener('mouseenter', () => showPanel(index));
+        item.addEventListener('focus', () => showPanel(index));
+        item.addEventListener('mouseleave', hidePanel);
+        item.addEventListener('blur', hidePanel);
+      });
+      
+      // Keep panel visible when hovering over it
+      panels.forEach((panel) => {
+        panel.addEventListener('mouseenter', () => {
+          if (hideTimeout) clearTimeout(hideTimeout);
+        });
+        panel.addEventListener('mouseleave', hidePanel);
+      });
+    });
+  }
+  
+  // Initialize on page load and after View Transitions
+  initTimelines();
+  document.addEventListener('astro:after-swap', initTimelines);
+</script>

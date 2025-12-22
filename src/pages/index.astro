@@ -5,6 +5,7 @@ import Timeline from '../components/ui/Timeline.astro';
 import ProjectCard from '../components/ui/ProjectCard.astro';
 import TechPill from '../components/ui/TechPill.astro';
 import Typewriter from '../components/ui/Typewriter.astro';
+import SocialIcon from '../components/ui/SocialIcon.astro';
 import {
   SITE_INFO,
   SOCIALS,
@@ -18,38 +19,69 @@ import {
 <Layout>
   <!-- Hero Section -->
   <header class="pb-12 border-b border-(--color-border)">
-    <h1
-      class="text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tight mb-3 text-(--color-text)"
+    <div
+      class="flex flex-col-reverse md:flex-row md:items-center md:justify-between gap-8"
     >
-      Víctor Manuel Heras
-    </h1>
-    <p
-      class="text-2xl sm:text-3xl font-semibold text-(--color-accent) mb-4 min-h-10"
-    >
-      <Typewriter />
-    </p>
+      <!-- Text Content -->
+      <div class="flex-1">
+        <h1
+          class="text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tight mb-3 text-(--color-text)"
+        >
+          Víctor Manuel Heras
+        </h1>
+        <p
+          class="text-2xl sm:text-3xl font-semibold text-(--color-accent) mb-6 min-h-10"
+        >
+          <Typewriter />
+        </p>
 
-    <!-- Social Links -->
-    <div class="flex gap-4 mb-6">
-      {
-        SOCIALS.map((social) => (
-          <a
-            href={social.url}
-            target="_blank"
-            rel="noopener noreferrer"
-            class="text-sm font-medium text-(--color-text-secondary) hover:text-(--color-accent) transition-colors"
+        <!-- Social Links with Icons -->
+        <div class="flex items-center gap-4">
+          {
+            SOCIALS.map((social) => (
+              <a
+                href={social.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                class="flex items-center gap-2 px-4 py-2 rounded-lg bg-(--color-bg-secondary) border border-(--color-border) text-(--color-text-secondary) hover:text-(--color-accent) hover:border-(--color-accent) transition-all duration-300"
+              >
+                <SocialIcon
+                  name={social.icon as 'github' | 'linkedin'}
+                  class="w-5 h-5"
+                />
+                <span class="text-sm font-medium">{social.name}</span>
+              </a>
+            ))
+          }
+        </div>
+      </div>
+
+      <!-- Profile Photo -->
+      <div class="shrink-0">
+        <div class="relative">
+          <div
+            class="w-32 h-32 md:w-40 md:h-40 lg:w-48 lg:h-48 rounded-full overflow-hidden border-4 border-(--color-border) shadow-xl"
           >
-            {social.name} →
-          </a>
-        ))
-      }
+            <img
+              src="/perfil.jpg"
+              alt="Víctor Manuel Heras"
+              class="w-full h-full object-cover"
+            />
+          </div>
+          <!-- Decorative ring -->
+          <div
+            class="absolute inset-0 rounded-full border-2 border-(--color-accent) opacity-50 scale-110"
+          >
+          </div>
+        </div>
+      </div>
     </div>
   </header>
 
   <!-- Sobre mí -->
   <Section title="Sobre mí" id="about">
-    <div class="prose prose-neutral dark:prose-invert max-w-3xl">
-      <p class="text-(--color-text-secondary) leading-relaxed text-lg">
+    <div class="max-w-4xl">
+      <p class="text-(--color-text-secondary) leading-relaxed text-lg mb-4">
         Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod
         tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim
         veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
@@ -64,16 +96,34 @@ import {
   </Section>
 
   <!-- Experiencia & Educación - Side by Side on Desktop -->
-  <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12">
+  <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-16 py-16">
     <!-- Experiencia -->
-    <Section title="Experiencia" id="experience">
+    <div>
+      <h2
+        class="text-2xl font-bold mb-8 text-(--color-text) flex items-center gap-3"
+      >
+        <span
+          class="w-8 h-8 rounded-lg bg-(--color-accent) flex items-center justify-center text-white text-sm"
+          >💼</span
+        >
+        Experiencia
+      </h2>
       <Timeline items={EXPERIENCE} type="experience" />
-    </Section>
+    </div>
 
     <!-- Educación -->
-    <Section title="Educación" id="education">
+    <div>
+      <h2
+        class="text-2xl font-bold mb-8 text-(--color-text) flex items-center gap-3"
+      >
+        <span
+          class="w-8 h-8 rounded-lg bg-(--color-accent) flex items-center justify-center text-white text-sm"
+          >🎓</span
+        >
+        Educación
+      </h2>
       <Timeline items={EDUCATION} type="education" />
-    </Section>
+    </div>
   </div>
 
   <!-- Proyectos -->
@@ -85,6 +135,9 @@ import {
 
   <!-- Stack -->
   <Section title="Stack" id="stack">
+    <p class="text-(--color-text-muted) mb-6">
+      Tecnologías con las que trabajo habitualmente
+    </p>
     <div class="flex flex-wrap gap-3">
       {
         STACK.map((tech) => (
@@ -95,28 +148,19 @@ import {
   </Section>
 
   <!-- Contact CTA -->
-  <section class="py-16 text-center border-t border-(--color-border)">
-    <h2 class="text-2xl font-bold mb-4 text-(--color-text)">¿Hablamos?</h2>
-    <p class="text-(--color-text-secondary) mb-6">
-      Estoy abierto a nuevas oportunidades y colaboraciones.
-    </p>
-    <a
-      href={`mailto:${SITE_INFO.email}`}
-      class="inline-flex items-center gap-2 px-6 py-3 bg-(--color-accent) text-white font-medium rounded-lg hover:opacity-90 transition-opacity"
-    >
-      Contáctame
-      <svg
-        class="w-4 h-4"
-        fill="none"
-        viewBox="0 0 24 24"
-        stroke="currentColor"
-        stroke-width="2"
+  <section class="py-20 text-center">
+    <div class="max-w-2xl mx-auto">
+      <h2 class="text-3xl font-bold mb-4 text-(--color-text)">¿Hablamos?</h2>
+      <p class="text-(--color-text-secondary) mb-8 text-lg">
+        Estoy abierto a nuevas oportunidades y colaboraciones.
+      </p>
+      <a
+        href={`mailto:${SITE_INFO.email}`}
+        class="inline-flex items-center gap-3 px-8 py-4 bg-(--color-accent) text-white font-semibold rounded-xl hover:opacity-90 transition-all duration-300 shadow-lg hover:shadow-xl hover:scale-105"
       >
-        <path
-          stroke-linecap="round"
-          stroke-linejoin="round"
-          d="M14 5l7 7m0 0l-7 7m7-7H3"></path>
-      </svg>
-    </a>
+        <SocialIcon name="email" class="w-5 h-5" />
+        Contáctame
+      </a>
+    </div>
   </section>
 </Layout>
