@@ -47,8 +47,10 @@ import { SOCIALS } from '../../data';
     </div>
 
     <!-- Profile Photo with Flip Effect -->
-    <div class="shrink-0">
-      <div class="relative group perspective-1000">
+    <div class="shrink-0 flex justify-center md:justify-end">
+      <div
+        class="relative group perspective-1000 w-32 h-32 md:w-40 md:h-40 lg:w-48 lg:h-48"
+      >
         <!-- Decorative ring -->
         <div
           class="absolute inset-0 rounded-full border-2 border-(--color-accent) opacity-50 scale-110 z-10 pointer-events-none"
@@ -56,7 +58,7 @@ import { SOCIALS } from '../../data';
         </div>
 
         <!-- Flip Card Container -->
-        <div class="flip-card w-32 h-32 md:w-40 md:h-40 lg:w-48 lg:h-48">
+        <div class="flip-card w-full h-full">
           <div class="flip-card-inner group-hover:rotate-y-180">
             <!-- Front - Profile Photo -->
             <div

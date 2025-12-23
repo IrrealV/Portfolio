@@ -4,19 +4,18 @@ name: Trigger auto deployment for web-victorheras-portfolio
 on:
   # Automatically trigger it when detected changes in repo
   push:
-    branches: 
-      [ main ]
+    branches: [main]
     paths:
-    - '**'
-    - '.github/workflows/web-victorheras-portfolio-AutoDeployTrigger-98e0ad75-84f0-42d1-bada-9a01a0c76d37.yml'
+      - '**'
+      - '.github/workflows/web-victorheras-portfolio-AutoDeployTrigger-98e0ad75-84f0-42d1-bada-9a01a0c76d37.yml'
 
-  # Allow manual trigger 
-  workflow_dispatch:      
+  # Allow manual trigger
+  workflow_dispatch:
 
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
-    permissions: 
+    permissions:
       id-token: write #This is required for requesting the OIDC JWT Token
       contents: read #Required when GH token is used to authenticate with private repo
 
@@ -35,15 +34,10 @@ jobs:
         uses: azure/container-apps-deploy-action@v2
         with:
           appSourcePath: ${{ github.workspace }}
-          _dockerfilePathKey_: _dockerfilePath_
-          _targetLabelKey_: _targetLabel_
+          dockerfilePath: ./Dockerfile
           registryUrl: acrvictorherasportfolio.azurecr.io
           registryUsername: ${{ secrets.WEBVICTORHERASPORTFOLIO_REGISTRY_USERNAME }}
           registryPassword: ${{ secrets.WEBVICTORHERASPORTFOLIO_REGISTRY_PASSWORD }}
           containerAppName: web-victorheras-portfolio
           resourceGroup: rg-victorheras-portfolio
           imageToBuild: acrvictorherasportfolio.azurecr.io/web-victorheras-portfolio:${{ github.sha }}
-          _buildArgumentsKey_: |
-            _buildArgumentsValues_
-
-
