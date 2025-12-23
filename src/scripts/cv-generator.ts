@@ -4,8 +4,8 @@ import { EXPERIENCE, EDUCATION, STACK } from '../data';
 
 // Contact info for the CV
 const CV_INFO = {
-  name: 'Víctor Manuel Heras',
-  title: 'Desarrollador Fullstack & Ingeniero Telemático',
+  name: 'Víctor Manuel Heras Durillo',
+  title: 'Desarrollador Fullstack',
   email: 'contact@victorheras.me',
   phone: '+34 658 204 691',
   location: 'Jaén, España',
@@ -93,8 +93,8 @@ function generateCVHTML(): string {
         ${educationHTML}
       </div>
 
-      <!-- Skills -->
-      <div style="margin-bottom: 16px;">
+      <!-- Skills (force new page to avoid cutting) -->
+      <div style="margin-bottom: 16px; page-break-before: always; padding-top: 20px;">
         <h2 style="font-size: 14px; color: #6366f1; border-bottom: 1px solid #e5e5e5; padding-bottom: 4px; margin-bottom: 8px;">TECNOLOGÍAS</h2>
         <p style="font-size: 12px; color: #333; margin: 0;">${stackHTML}</p>
       </div>
