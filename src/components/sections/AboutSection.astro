@@ -1,25 +1,65 @@
 ---
 import Section from '../ui/Section.astro';
+import TechIcon from '../icons/TechIcon.astro';
 
 /**
- * About section - Personal introduction
+ * About section - 3 columns with representative icons
  */
 ---
 
 <Section title="Sobre mí" id="about">
-  <div class="max-w-prose space-y-4">
-    <p class="text-(--color-text-secondary) leading-relaxed text-lg">
-      Soy Víctor Manuel, estudiante de Ingeniería Telemática y Desarrollador
-      Fullstack con un fuerte enfoque en la infraestructura.
-    </p>
-    <p class="text-(--color-text-secondary) leading-relaxed text-lg">
-      Cuento con tres años de experiencia técnica que me permiten construir
-      aplicaciones modernas y eficientes usando Angular, NestJS y Astro.
-    </p>
-    <p class="text-(--color-text-secondary) leading-relaxed text-lg">
-      Mi prioridad es crear soluciones escalables que optimicen procesos y
-      aporten valor real al usuario final, combinando disciplina académica con
-      una mentalidad práctica.
-    </p>
+  <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+    <!-- Column 1: Introduction -->
+    <div class="flex flex-col">
+      <p class="text-(--color-text-secondary) leading-relaxed text-lg flex-1">
+        Soy Víctor Manuel, estudiante de Ingeniería Telemática y Desarrollador
+        Fullstack con un fuerte enfoque en la infraestructura.
+      </p>
+      <div
+        class="flex items-center justify-center gap-4 mt-6 pt-4 border-t border-(--color-border)"
+      >
+        <span class="text-2xl" title="Estudiante">📚</span>
+        <span class="text-2xl font-mono text-(--color-accent)" title="Terminal"
+          >&gt;_</span
+        >
+        <span class="text-2xl" title="Fullstack">⚡</span>
+      </div>
+    </div>
+
+    <!-- Column 2: Experience -->
+    <div class="flex flex-col">
+      <p class="text-(--color-text-secondary) leading-relaxed text-lg flex-1">
+        Cuento con tres años de experiencia técnica que me permiten construir
+        aplicaciones modernas y eficientes usando Angular, NestJS y Astro.
+      </p>
+      <div
+        class="flex items-center justify-center gap-4 mt-6 pt-4 border-t border-(--color-border)"
+      >
+        <div class="w-8 h-8 flex items-center justify-center" title="Angular">
+          <TechIcon name="Angular" class="w-6 h-6 text-red-600" />
+        </div>
+        <div class="w-8 h-8 flex items-center justify-center" title="NestJS">
+          <TechIcon name="NestJS" class="w-6 h-6 text-red-500" />
+        </div>
+        <div class="w-8 h-8 flex items-center justify-center" title="Astro">
+          <TechIcon name="Astro" class="w-6 h-6 text-orange-500" />
+        </div>
+      </div>
+    </div>
+
+    <!-- Column 3: Goals -->
+    <div class="flex flex-col">
+      <p class="text-(--color-text-secondary) leading-relaxed text-lg flex-1">
+        Mi prioridad es crear soluciones escalables que optimicen procesos y
+        aporten valor real al usuario final, combinando disciplina con práctica.
+      </p>
+      <div
+        class="flex items-center justify-center gap-4 mt-6 pt-4 border-t border-(--color-border)"
+      >
+        <span class="text-2xl" title="Escalabilidad">📈</span>
+        <span class="text-2xl" title="Valor">💎</span>
+        <span class="text-2xl" title="Mejora continua">🚀</span>
+      </div>
+    </div>
   </div>
 </Section>
