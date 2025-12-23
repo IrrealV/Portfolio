@@ -61,12 +61,16 @@ const { project: p } = Astro.props;
 
 <section class="mb-10">
   <h2 class="text-xl font-semibold text-(--color-text) mb-4">El Problema</h2>
-  <p class="text-(--color-text-secondary)">{p.problem}</p>
+  <p class="text-(--color-text-secondary) max-w-prose leading-relaxed">
+    {p.problem}
+  </p>
 </section>
 
 <section class="mb-10">
   <h2 class="text-xl font-semibold text-(--color-text) mb-4">La Solución</h2>
-  <p class="text-(--color-text-secondary)">{p.solution}</p>
+  <p class="text-(--color-text-secondary) max-w-prose leading-relaxed">
+    {p.solution}
+  </p>
 </section>
 
 {
