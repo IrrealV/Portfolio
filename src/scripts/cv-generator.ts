@@ -10,7 +10,7 @@ const CV_INFO = {
   phone: '+34 658 204 691',
   location: 'Jaén, España',
   website: 'victorheras.me',
-  linkedin: 'linkedin.com/in/victor-heras',
+  linkedin: 'linkedin.com/in/vmheras',
   github: 'github.com/IrrealV',
 };
 
@@ -61,7 +61,7 @@ function generateCVHTML(): string {
         <h1 style="margin: 0 0 4px 0; font-size: 28px; font-weight: 700; color: #1a1a1a;">${
           CV_INFO.name
         }</h1>
-        <p style="margin: 0 0 12px 0; font-size: 14px; color: #6366f1; font-weight: 500;">${
+        <p style="margin: 0 0 12px 0; font-size: 18px; color: #6366f1; font-weight: 600;">${
           CV_INFO.title
         }</p>
         <div style="font-size: 11px; color: #555;">
@@ -72,7 +72,7 @@ function generateCVHTML(): string {
 
       <!-- About -->
       <div style="margin-bottom: 20px;">
-        <h2 style="font-size: 14px; color: #6366f1; border-bottom: 1px solid #e5e5e5; padding-bottom: 4px; margin-bottom: 8px;">PERFIL PROFESIONAL</h2>
+        <h2 style="font-size: 14px; color: #6366f1; border-bottom: 1px solid #e5e5e5; padding-bottom: 4px; margin-bottom: 8px; letter-spacing: 2px;">PERFIL PROFESIONAL</h2>
         <p style="font-size: 12px; color: #333; margin: 0;">
           Desarrollador Fullstack con enfoque en infraestructura y tres años de experiencia técnica. 
           Especializado en construir aplicaciones modernas y eficientes usando Angular, NestJS y Astro. 
@@ -83,19 +83,19 @@ function generateCVHTML(): string {
 
       <!-- Experience -->
       <div style="margin-bottom: 20px;">
-        <h2 style="font-size: 14px; color: #6366f1; border-bottom: 1px solid #e5e5e5; padding-bottom: 4px; margin-bottom: 12px;">EXPERIENCIA PROFESIONAL</h2>
+        <h2 style="font-size: 14px; color: #6366f1; border-bottom: 1px solid #e5e5e5; padding-bottom: 4px; margin-bottom: 12px; letter-spacing: 2px;">EXPERIENCIA PROFESIONAL</h2>
         ${experienceHTML}
       </div>
 
       <!-- Education -->
       <div style="margin-bottom: 20px;">
-        <h2 style="font-size: 14px; color: #6366f1; border-bottom: 1px solid #e5e5e5; padding-bottom: 4px; margin-bottom: 12px;">FORMACIÓN ACADÉMICA</h2>
+        <h2 style="font-size: 14px; color: #6366f1; border-bottom: 1px solid #e5e5e5; padding-bottom: 4px; margin-bottom: 12px; letter-spacing: 2px;">FORMACIÓN ACADÉMICA</h2>
         ${educationHTML}
       </div>
 
       <!-- Skills (force new page to avoid cutting) -->
       <div style="margin-bottom: 16px; page-break-before: always; padding-top: 20px;">
-        <h2 style="font-size: 14px; color: #6366f1; border-bottom: 1px solid #e5e5e5; padding-bottom: 4px; margin-bottom: 8px;">TECNOLOGÍAS</h2>
+        <h2 style="font-size: 14px; color: #6366f1; border-bottom: 1px solid #e5e5e5; padding-bottom: 4px; margin-bottom: 8px; letter-spacing: 2px;">TECNOLOGÍAS</h2>
         <p style="font-size: 12px; color: #333; margin: 0;">${stackHTML}</p>
       </div>
 
