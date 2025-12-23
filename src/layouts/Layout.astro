@@ -36,21 +36,27 @@ const { title = SITE_INFO.title, description = SITE_INFO.description } =
 
     <ClientRouter />
 
-    <!-- Theme hydration script (prevents flash and works with View Transitions) -->
+    <!-- Theme hydration script (prevents flash during View Transitions) -->
     <script is:inline>
       function applyTheme() {
         const theme = localStorage.getItem('theme');
         if (theme === 'light') {
           document.documentElement.classList.remove('dark');
         } else {
-          // Default to dark if no preference
           document.documentElement.classList.add('dark');
         }
       }
-      // Apply immediately
+      // Apply immediately on page load
       applyTheme();
-      // Re-apply after View Transitions
-      document.addEventListener('astro:after-swap', applyTheme);
+      // Apply to the NEW document BEFORE it becomes visible (prevents flash)
+      document.addEventListener('astro:before-swap', (e) => {
+        const theme = localStorage.getItem('theme');
+        if (theme === 'light') {
+          e.newDocument.documentElement.classList.remove('dark');
+        } else {
+          e.newDocument.documentElement.classList.add('dark');
+        }
+      });
     </script>
   </head>
   <body class="font-sans antialiased min-h-screen">
