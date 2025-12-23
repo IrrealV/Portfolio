@@ -34,6 +34,5 @@ const { class: className } = Astro.props;
 
 <script>
   import { initTypewriter } from '../../scripts/typewriter';
-  initTypewriter();
-  document.addEventListener('astro:after-swap', initTypewriter);
+  document.addEventListener('astro:page-load', initTypewriter);
 </script>

@@ -98,6 +98,5 @@ const endDate = (p: string) => p.split('–')[1]?.trim() || 'Actual';
 
 <script>
   import { initTimelines } from '../../scripts/timeline';
-  initTimelines();
-  document.addEventListener('astro:after-swap', initTimelines);
+  document.addEventListener('astro:page-load', initTimelines);
 </script>

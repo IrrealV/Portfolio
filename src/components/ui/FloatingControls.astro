@@ -72,12 +72,8 @@
   import { initTheme } from '../../scripts/theme';
   import { initBackToTop } from '../../scripts/navigation';
 
-  // Initialize all controls
-  initTheme();
-  initBackToTop();
-
-  // Re-init after View Transitions
-  document.addEventListener('astro:after-swap', () => {
+  // Initialize on page load (works for initial load AND navigation)
+  document.addEventListener('astro:page-load', () => {
     initTheme();
     initBackToTop();
   });

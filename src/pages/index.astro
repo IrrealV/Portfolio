@@ -23,6 +23,5 @@ import ContactSection from '../components/sections/ContactSection.astro';
 
 <script>
   import { initSpinEasterEgg } from '../scripts/easter-egg';
-  initSpinEasterEgg();
-  document.addEventListener('astro:after-swap', initSpinEasterEgg);
+  document.addEventListener('astro:page-load', initSpinEasterEgg);
 </script>
