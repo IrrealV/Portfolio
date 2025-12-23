@@ -23,5 +23,10 @@ import ContactSection from '../components/sections/ContactSection.astro';
 
 <script>
   import { initSpinEasterEgg } from '../scripts/easter-egg';
-  document.addEventListener('astro:page-load', initSpinEasterEgg);
+  import { initCVDownload } from '../scripts/cv-generator';
+
+  document.addEventListener('astro:page-load', () => {
+    initSpinEasterEgg();
+    initCVDownload();
+  });
 </script>
