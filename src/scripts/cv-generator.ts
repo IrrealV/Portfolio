@@ -57,14 +57,14 @@ function generateCVHTML(): string {
     <div style="font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif; padding: 32px; max-width: 800px; margin: 0 auto; color: #1a1a1a; line-height: 1.5;">
       
       <!-- Header -->
-      <div style="text-align: center; margin-bottom: 24px; padding-bottom: 16px; border-bottom: 2px solid #6366f1;">
-        <h1 style="margin: 0 0 4px 0; font-size: 28px; font-weight: 700; color: #1a1a1a;">${
+      <div style="margin-bottom: 24px; padding-bottom: 16px; border-bottom: 2px solid #6366f1;">
+        <h1 style="margin: 0 0 4px 0; font-size: 28px; font-weight: 700; color: #1a1a1a; text-align: center; display: block; width: 100%;">${
           CV_INFO.name
         }</h1>
-        <p style="margin: 0 0 12px 0; font-size: 18px; color: #6366f1; font-weight: 600;">${
+        <p style="margin: 0 0 12px 0; font-size: 18px; color: #6366f1; font-weight: 600; text-align: center; display: block; width: 100%;">${
           CV_INFO.title
         }</p>
-        <div style="font-size: 11px; color: #555;">
+        <div style="font-size: 11px; color: #555; text-align: center;">
           📧 ${CV_INFO.email} · 📱 ${CV_INFO.phone} · 📍 ${CV_INFO.location}<br>
           🌐 ${CV_INFO.website} · 💼 ${CV_INFO.linkedin} · 💻 ${CV_INFO.github}
         </div>
