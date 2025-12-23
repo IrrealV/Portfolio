@@ -1,0 +1,41 @@
+name: Deploy Portfolio to Azure
+
+on:
+  push:
+    branches: ['main']
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      # 1. Login en Azure Container Registry
+      - name: Azure Container Registry Login
+        uses: azure/docker-login@v1
+        with:
+          login-server: ${{ secrets.AZURE_ACR_SERVER }}
+          username: ${{ secrets.AZURE_ACR_USERNAME }}
+          password: ${{ secrets.AZURE_ACR_PASSWORD }}
+
+      # 2. Construir y Subir Imagen Docker
+      - name: Build and Push Docker Image
+        run: |
+          docker build -t ${{ secrets.AZURE_ACR_SERVER }}/victor-portfolio:${{ github.sha }} .
+          docker push ${{ secrets.AZURE_ACR_SERVER }}/victor-portfolio:${{ github.sha }}
+          # Etiquetamos también como 'latest' para facilitar las cosas
+          docker tag ${{ secrets.AZURE_ACR_SERVER }}/victor-portfolio:${{ github.sha }} ${{ secrets.AZURE_ACR_SERVER }}/victor-portfolio:latest
+          docker push ${{ secrets.AZURE_ACR_SERVER }}/victor-portfolio:latest
+
+      # 3. Desplegar en Web App for Containers
+      - name: Deploy to Azure Web App
+        uses: azure/webapps-deploy@v2
+        with:
+          app-name: 'app-victorheras-portfolio' # <--- ASEGÚRATE QUE COINCIDE CON EL NOMBRE QUE PUSISTE EN AZURE
+          images: '${{ secrets.AZURE_ACR_SERVER }}/victor-portfolio:${{ github.sha }}'
