@@ -4,13 +4,16 @@ Portfolio personal desarrollado con **Astro 5**, **TailwindCSS** y **TypeScript*
 
 ## ✨ Características
 
-- 🌗 **Modo Oscuro/Claro** - Persistente con localStorage
+- 🌗 **Modo Oscuro/Claro** - Persistente con localStorage, iconos dinámicos (sol/luna)
 - 🎭 **View Transitions** - Navegación fluida con ClientRouter
 - 📱 **Responsive** - Optimizado para móvil y desktop
 - 🎮 **Easter Egg** - Click en el logo para una sorpresa 😉
 - ⬆️ **Controles Flotantes** - Botón volver arriba + toggle tema
 - 📊 **Timelines Interactivos** - Experiencia y educación con hover
 - ⚡ **Performance** - Zero JavaScript innecesario
+- 📄 **Descarga de CV** - Generación dinámica de PDF con html2pdf.js
+- 🔔 **Notificaciones Toast** - Feedback visual para acciones del usuario
+- ✨ **Fondo de Red Animado** - Partículas con líneas conectoras (desktop) / patrón estático (móvil)
 
 ## 🏗️ Arquitectura del Proyecto
 
@@ -23,7 +26,7 @@ src/
 │   │   └── icons.ts            # Paths SVG centralizados
 │   │
 │   ├── sections/           # Secciones de página completas
-│   │   ├── Hero.astro              # Header con foto, nombre, social
+│   │   ├── Hero.astro              # Header con foto, nombre, social, CV
 │   │   ├── AboutSection.astro      # Sobre mí
 │   │   ├── ExperienceEducation.astro # Timelines lado a lado
 │   │   ├── ProjectsSection.astro   # Grid de proyectos
@@ -37,7 +40,8 @@ src/
 │       ├── Timeline.astro          # Timeline horizontal
 │       ├── Typewriter.astro        # Animación de texto
 │       ├── ProjectCard.astro       # Card de proyecto
-│       └── FloatingControls.astro  # Botones flotantes
+│       ├── FloatingControls.astro  # Botones flotantes (tema + scroll)
+│       └── NetworkBackground.astro # Fondo animado de partículas
 │
 ├── data/                   # Datos separados por entidad
 │   ├── index.ts            # Barrel export (punto de entrada único)
@@ -49,11 +53,15 @@ src/
 │   └── projects.ts         # Proyectos del portfolio
 │
 ├── scripts/                # Lógica JavaScript modular
-│   ├── theme.ts            # Toggle de tema claro/oscuro
+│   ├── theme.ts            # Toggle de tema claro/oscuro con iconos dinámicos
 │   ├── typewriter.ts       # Animación de texto
 │   ├── timeline.ts         # Interactividad del timeline
 │   ├── navigation.ts       # Back-to-top button
-│   └── easter-egg.ts       # 🎮 Spin animation
+│   ├── easter-egg.ts       # 🎮 Spin animation
+│   ├── cv-generator.ts     # Generación de CV en PDF
+│   ├── cv-template.ts      # Plantilla HTML del CV
+│   ├── toast.ts            # Sistema de notificaciones toast
+│   └── network-background.ts # Animación de partículas del fondo
 │
 ├── styles/                 # CSS modular
 │   ├── global.css          # Solo imports
@@ -63,7 +71,7 @@ src/
 │   └── animations.css      # Keyframes y flip card
 │
 ├── layouts/
-│   └── Layout.astro        # Layout principal con head, footer
+│   └── Layout.astro        # Layout principal con head, footer, background
 │
 ├── pages/
 │   ├── index.astro         # Home - compone las secciones
@@ -92,6 +100,9 @@ bun install
 
 # Servidor de desarrollo
 bun dev
+
+# Servidor accesible desde red local (móvil)
+bun dev --host
 
 # Build de producción
 bun build
@@ -127,6 +138,10 @@ Edita `src/styles/theme.css`:
 
 1. Añade el path SVG en `src/components/icons/icons.ts`
 2. El componente `TechIcon.astro` lo detectará automáticamente
+
+### Personalizar el CV
+
+Edita `src/scripts/cv-template.ts` para modificar el contenido y estilo del PDF generado.
 
 ## 📄 Licencia
 
