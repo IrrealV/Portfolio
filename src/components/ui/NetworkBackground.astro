@@ -1,0 +1,200 @@
+---
+/**
+ * NetworkBackground - Animated dots with connecting lines
+ * Creates a subtle network/constellation effect with mouse interaction
+ */
+---
+
+<div class="network-bg" id="network-bg">
+  <canvas id="network-canvas"></canvas>
+</div>
+
+<style>
+  .network-bg {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+    pointer-events: none;
+    opacity: 0.7;
+  }
+
+  #network-canvas {
+    width: 100%;
+    height: 100%;
+  }
+
+  :global(.dark) .network-bg {
+    opacity: 0.5;
+  }
+</style>
+
+<script>
+  function initNetworkBackground() {
+    const canvas = document.getElementById(
+      'network-canvas',
+    ) as HTMLCanvasElement;
+    if (!canvas) return;
+
+    const ctx = canvas.getContext('2d');
+    if (!ctx) return;
+
+    let particles: Particle[] = [];
+    let animationId: number;
+    const particleCount = 60;
+    const connectionDistance = 150;
+    const mouseRadius = 120; // Distance at which particles flee from mouse
+    const mouseRepelStrength = 3; // How strongly particles are pushed away
+
+    let mouse = { x: -1000, y: -1000 };
+
+    interface Particle {
+      x: number;
+      y: number;
+      vx: number;
+      vy: number;
+      baseVx: number;
+      baseVy: number;
+      size: number;
+    }
+
+    function resize() {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+    }
+
+    function createParticles() {
+      particles = [];
+      for (let i = 0; i < particleCount; i++) {
+        const vx = (Math.random() - 0.5) * 0.5;
+        const vy = (Math.random() - 0.5) * 0.5;
+        particles.push({
+          x: Math.random() * canvas.width,
+          y: Math.random() * canvas.height,
+          vx: vx,
+          vy: vy,
+          baseVx: vx,
+          baseVy: vy,
+          size: Math.random() * 2 + 1,
+        });
+      }
+    }
+
+    function getColor() {
+      const isDark = document.documentElement.classList.contains('dark');
+      return isDark ? 'rgba(99, 102, 241, 0.8)' : 'rgba(99, 102, 241, 0.6)';
+    }
+
+    function animate() {
+      ctx!.clearRect(0, 0, canvas.width, canvas.height);
+      const color = getColor();
+
+      particles.forEach((p, i) => {
+        // Calculate distance from mouse
+        const dx = p.x - mouse.x;
+        const dy = p.y - mouse.y;
+        const dist = Math.sqrt(dx * dx + dy * dy);
+
+        // Mouse repulsion effect
+        if (dist < mouseRadius && dist > 0) {
+          const force = (mouseRadius - dist) / mouseRadius;
+          const angle = Math.atan2(dy, dx);
+          p.vx = p.baseVx + Math.cos(angle) * force * mouseRepelStrength;
+          p.vy = p.baseVy + Math.sin(angle) * force * mouseRepelStrength;
+        } else {
+          // Gradually return to base velocity
+          p.vx += (p.baseVx - p.vx) * 0.05;
+          p.vy += (p.baseVy - p.vy) * 0.05;
+        }
+
+        // Move
+        p.x += p.vx;
+        p.y += p.vy;
+
+        // Bounce off edges
+        if (p.x < 0 || p.x > canvas.width) {
+          p.vx *= -1;
+          p.baseVx *= -1;
+        }
+        if (p.y < 0 || p.y > canvas.height) {
+          p.vy *= -1;
+          p.baseVy *= -1;
+        }
+
+        // Keep within bounds
+        p.x = Math.max(0, Math.min(canvas.width, p.x));
+        p.y = Math.max(0, Math.min(canvas.height, p.y));
+
+        // Draw particle
+        ctx!.beginPath();
+        ctx!.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+        ctx!.fillStyle = color;
+        ctx!.fill();
+
+        // Draw connections
+        for (let j = i + 1; j < particles.length; j++) {
+          const p2 = particles[j];
+          const connDx = p.x - p2.x;
+          const connDy = p.y - p2.y;
+          const connDist = Math.sqrt(connDx * connDx + connDy * connDy);
+
+          if (connDist < connectionDistance) {
+            const opacity = (1 - connDist / connectionDistance) * 0.6;
+            ctx!.beginPath();
+            ctx!.moveTo(p.x, p.y);
+            ctx!.lineTo(p2.x, p2.y);
+            ctx!.strokeStyle = color
+              .replace('0.8', String(opacity))
+              .replace('0.6', String(opacity));
+            ctx!.lineWidth = 0.8;
+            ctx!.stroke();
+          }
+        }
+      });
+
+      animationId = requestAnimationFrame(animate);
+    }
+
+    function handleMouseMove(e: MouseEvent) {
+      mouse.x = e.clientX;
+      mouse.y = e.clientY;
+    }
+
+    function handleMouseLeave() {
+      mouse.x = -1000;
+      mouse.y = -1000;
+    }
+
+    function init() {
+      resize();
+      createParticles();
+      animate();
+    }
+
+    function cleanup() {
+      if (animationId) {
+        cancelAnimationFrame(animationId);
+      }
+      document.removeEventListener('mousemove', handleMouseMove);
+      document.removeEventListener('mouseleave', handleMouseLeave);
+    }
+
+    // Initialize
+    init();
+    document.addEventListener('mousemove', handleMouseMove);
+    document.addEventListener('mouseleave', handleMouseLeave);
+
+    window.addEventListener('resize', () => {
+      resize();
+      createParticles();
+    });
+
+    // Cleanup on navigation
+    document.addEventListener('astro:before-swap', cleanup);
+  }
+
+  // Initialize on page load
+  document.addEventListener('astro:page-load', initNetworkBackground);
+</script>
