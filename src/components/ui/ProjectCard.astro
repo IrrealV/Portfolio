@@ -11,7 +11,7 @@ const { project } = Astro.props;
 <a
   href={project.isComingSoon ? undefined : `/projects/${project.slug}`}
   class:list={[
-    'group block rounded-xl overflow-hidden border border-(--color-border) bg-(--color-bg-secondary) transition-all duration-300',
+    'project-card group block rounded-xl overflow-hidden border border-(--color-border) bg-(--color-bg-secondary) transition-all duration-300',
     project.isComingSoon
       ? 'opacity-60 cursor-not-allowed'
       : 'hover:border-(--color-accent) hover:shadow-lg',
@@ -47,9 +47,7 @@ const { project } = Astro.props;
       </h3>
       {
         project.isComingSoon && (
-          <span class="px-2 py-0.5 text-xs font-medium rounded-full bg-(--color-bg-tertiary) text-(--color-text-muted)">
-            Próximamente
-          </span>
+          <span class="pill rounded-full">Próximamente</span>
         )
       }
     </div>
@@ -63,17 +61,11 @@ const { project } = Astro.props;
       {
         project.stack
           .slice(0, 4)
-          .map((tech) => (
-            <span class="px-2 py-0.5 text-xs font-medium rounded bg-(--color-bg-tertiary) text-(--color-text-muted)">
-              {tech}
-            </span>
-          ))
+          .map((tech) => <span class="pill">{tech}</span>)
       }
       {
         project.stack.length > 4 && (
-          <span class="px-2 py-0.5 text-xs font-medium rounded bg-(--color-bg-tertiary) text-(--color-text-muted)">
-            +{project.stack.length - 4}
-          </span>
+          <span class="pill">+{project.stack.length - 4}</span>
         )
       }
     </div>

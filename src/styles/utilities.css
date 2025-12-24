@@ -16,3 +16,96 @@
 ::view-transition-new(root) {
   animation-duration: 0.3s;
 }
+
+/* ============================================
+   REUSABLE COMPONENT CLASSES
+   ============================================ */
+
+/* Base button styles */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 1rem;
+  border-radius: 0.5rem;
+  font-weight: 500;
+  transition: all 0.3s;
+}
+
+/* Primary button (accent background) */
+.btn-primary {
+  background-color: var(--color-accent);
+  color: white;
+}
+.btn-primary:hover {
+  opacity: 0.9;
+}
+
+/* Secondary button (bordered) */
+.btn-secondary {
+  background-color: var(--color-bg-secondary);
+  border: 1px solid var(--color-border);
+  color: var(--color-text-secondary);
+}
+.btn-secondary:hover {
+  color: var(--color-accent);
+  border-color: var(--color-accent);
+}
+
+/* Small pill/tag */
+.pill {
+  display: inline-block;
+  padding: 0.125rem 0.5rem;
+  font-size: 0.75rem;
+  font-weight: 500;
+  border-radius: 0.25rem;
+  background-color: var(--color-bg-tertiary);
+  color: var(--color-text-muted);
+}
+
+/* Larger tech pill */
+.tech-pill {
+  padding: 0.375rem 0.75rem;
+  font-size: 0.875rem;
+  border-radius: 0.5rem;
+  background-color: var(--color-bg-tertiary);
+  color: var(--color-text-secondary);
+  border: 1px solid var(--color-border);
+}
+
+/* Section heading */
+.section-heading {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: var(--color-text);
+  margin-bottom: 1rem;
+}
+
+/* Back link with arrow */
+.link-back {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.875rem;
+  color: var(--color-text-muted);
+  transition: color 0.2s;
+}
+.link-back:hover {
+  color: var(--color-accent);
+}
+
+/* Disable hover effects on touch devices to prevent flickering */
+@media (hover: none) {
+  .project-card img {
+    transform: none !important;
+  }
+
+  .project-card:hover {
+    border-color: var(--color-border) !important;
+    box-shadow: none !important;
+  }
+
+  .project-card h3 {
+    color: var(--color-text) !important;
+  }
+}

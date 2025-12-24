@@ -6,10 +6,7 @@ interface Props {
 const { project: p } = Astro.props;
 ---
 
-<a
-  href="/#projects"
-  class="inline-flex items-center gap-2 text-sm text-(--color-text-muted) hover:text-(--color-accent) mb-8"
->
+<a href="/#projects" class="link-back mb-8">
   <svg
     class="w-4 h-4"
     fill="none"
@@ -60,14 +57,14 @@ const { project: p } = Astro.props;
 }
 
 <section class="mb-10">
-  <h2 class="text-xl font-semibold text-(--color-text) mb-4">El Problema</h2>
+  <h2 class="section-heading">El Problema</h2>
   <p class="text-(--color-text-secondary) max-w-prose leading-relaxed">
     {p.problem}
   </p>
 </section>
 
 <section class="mb-10">
-  <h2 class="text-xl font-semibold text-(--color-text) mb-4">La Solución</h2>
+  <h2 class="section-heading">La Solución</h2>
   <p class="text-(--color-text-secondary) max-w-prose leading-relaxed">
     {p.solution}
   </p>
@@ -76,9 +73,7 @@ const { project: p } = Astro.props;
 {
   p.features.length > 0 && (
     <section class="mb-10">
-      <h2 class="text-xl font-semibold text-(--color-text) mb-4">
-        Características
-      </h2>
+      <h2 class="section-heading">Características</h2>
       <ul class="space-y-2">
         {p.features.map((f) => (
           <li class="flex gap-3 text-(--color-text-secondary)">
@@ -92,15 +87,9 @@ const { project: p } = Astro.props;
 }
 
 <section class="mb-10">
-  <h2 class="text-xl font-semibold text-(--color-text) mb-4">Tecnologías</h2>
+  <h2 class="section-heading">Tecnologías</h2>
   <div class="flex flex-wrap gap-2">
-    {
-      p.stack.map((t) => (
-        <span class="px-3 py-1.5 text-sm rounded-lg bg-(--color-bg-tertiary) text-(--color-text-secondary) border border-(--color-border)">
-          {t}
-        </span>
-      ))
-    }
+    {p.stack.map((t) => <span class="tech-pill">{t}</span>)}
   </div>
 </section>
 

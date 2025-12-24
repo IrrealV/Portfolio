@@ -33,7 +33,7 @@ import { SOCIALS } from '../../data';
               href={social.url}
               target="_blank"
               rel="noopener noreferrer"
-              class="flex items-center gap-2 px-4 py-2 rounded-lg bg-(--color-bg-secondary) border border-(--color-border) text-(--color-text-secondary) hover:text-(--color-accent) hover:border-(--color-accent) transition-all duration-300"
+              class="btn btn-secondary"
             >
               <SocialIcon
                 name={social.icon as 'github' | 'linkedin'}
@@ -44,11 +44,7 @@ import { SOCIALS } from '../../data';
           ))
         }
         <!-- CV Download Button -->
-        <button
-          id="download-cv"
-          type="button"
-          class="flex items-center gap-2 px-4 py-2 rounded-lg bg-(--color-accent) text-white font-medium hover:opacity-90 transition-all duration-300"
-        >
+        <button id="download-cv" type="button" class="btn btn-primary">
           <svg
             class="w-5 h-5"
             fill="none"
