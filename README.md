@@ -40,6 +40,7 @@ src/
 │       ├── Timeline.astro          # Timeline horizontal
 │       ├── Typewriter.astro        # Animación de texto
 │       ├── ProjectCard.astro       # Card de proyecto
+│       ├── ThemeToggle.astro       # Botón cambio de tema
 │       ├── FloatingControls.astro  # Botones flotantes (tema + scroll)
 │       └── NetworkBackground.astro # Fondo animado de partículas
 │
@@ -91,6 +92,20 @@ src/
 | **CSS modular**                | Estilos separados por responsabilidad |
 | **Scripts externos**           | Lógica en `/scripts`, no inline       |
 | **Secciones como componentes** | Cada sección en su archivo            |
+
+## 🎨 Clases Utilitarias CSS
+
+Definidas en `src/styles/utilities.css` para evitar duplicación:
+
+| Clase              | Uso                                    |
+| ------------------ | -------------------------------------- |
+| `.btn`             | Base para botones (flex, gap, padding) |
+| `.btn-primary`     | Botón con fondo de acento              |
+| `.btn-secondary`   | Botón con borde (links, toggles)       |
+| `.pill`            | Tags pequeños (tecnologías en cards)   |
+| `.tech-pill`       | Pills más grandes con borde            |
+| `.section-heading` | Headings h2 de sección                 |
+| `.link-back`       | Links de navegación con icono          |
 
 ## 🚀 Comandos
 
