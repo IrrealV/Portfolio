@@ -1,6 +1,7 @@
 // CV PDF Generator - Creates a professional resume PDF
 import html2pdf from 'html2pdf.js';
 import { generateCVHTML } from './cv-template';
+import { showToast } from './toast';
 
 const PDF_OPTIONS = {
   margin: 0.5,
@@ -15,9 +16,18 @@ const PDF_OPTIONS = {
 };
 
 export function downloadCV(): void {
+  showToast('Generando CV...', 'info', 2000);
+
   const element = document.createElement('div');
   element.innerHTML = generateCVHTML();
-  html2pdf().set(PDF_OPTIONS).from(element).save();
+
+  html2pdf()
+    .set(PDF_OPTIONS)
+    .from(element)
+    .save()
+    .then(() => {
+      showToast('CV descargado correctamente', 'success', 3000);
+    });
 }
 
 export function initCVDownload(): void {
