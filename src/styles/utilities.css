@@ -65,12 +65,20 @@
 
 /* Larger tech pill */
 .tech-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
   padding: 0.375rem 0.75rem;
   font-size: 0.875rem;
+  font-weight: 500;
   border-radius: 0.5rem;
   background-color: var(--color-bg-tertiary);
   color: var(--color-text-secondary);
   border: 1px solid var(--color-border);
+  transition: border-color 0.2s;
+}
+.tech-pill:hover {
+  border-color: var(--color-border-hover);
 }
 
 /* Section heading */

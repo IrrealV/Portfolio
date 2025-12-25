@@ -10,8 +10,9 @@
   --color-text-muted: #6b7280; /* Darkened from #9ca3af for better contrast */
   --color-border: #e5e7eb;
   --color-border-hover: #d1d5db;
-  --color-accent: #6366f1;
-  --color-accent-light: #818cf8;
+  /* Darkened for WCAG AA (Contact 4.5:1 on white text) */
+  --color-accent: #4f46e5; /* Indigo 600 */
+  --color-accent-light: #6366f1; /* Indigo 500 */
 }
 
 .dark {
@@ -24,6 +25,7 @@
   --color-text-muted: #a1a1aa; /* Lightened from #71717a for better contrast */
   --color-border: #27272a;
   --color-border-hover: #3f3f46;
-  --color-accent: #818cf8;
-  --color-accent-light: #a5b4fc;
+  /* Darkened slightly to support white text better, and lighter hover */
+  --color-accent: #6366f1; /* Indigo 500 */
+  --color-accent-light: #818cf8; /* Indigo 400 */
 }
