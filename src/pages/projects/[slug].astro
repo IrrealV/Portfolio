@@ -19,9 +19,11 @@ const { project } = Astro.props;
 if (project.isComingSoon) {
   return Astro.redirect('/');
 }
+
+const seoDescription = `${project.tagline} Construido con ${project.stack.slice(0, 3).join(', ')}. ${project.problem.substring(0, 100)}...`;
 ---
 
-<Layout title={`${project.title} | Victor Heras`} description={project.tagline}>
+<Layout title={`${project.title} | Victor Heras`} description={seoDescription}>
   <article class="max-w-none">
     <ProjectDetail project={project} />
   </article>
