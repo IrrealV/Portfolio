@@ -1,12 +1,10 @@
 ---
 /**
  * NetworkBackground - Animated dots with connecting lines
- * Desktop: Full canvas animation with mouse interaction
- * Mobile: Static CSS gradient fallback (prevents flickering on scroll)
+ * Creates a constellation-like effect on all devices
  */
 ---
 
-<!-- Desktop: Canvas animation | Mobile: CSS gradient via data attribute -->
 <div class="network-bg" id="network-bg" transition:persist>
   <canvas id="network-canvas"></canvas>
 </div>
@@ -16,88 +14,43 @@
     position: fixed;
     top: 0;
     left: 0;
-    width: 100%;
-    height: 100dvh;
+    width: 100vw;
+    /* 100lvh = Large Viewport Height (max height, ignores address bar) */
+    height: 100lvh;
+    min-height: 100vh; /* Fallback for older browsers */
     z-index: -1;
     pointer-events: none;
-    contain: strict;
-    view-transition-name: none;
+    /* Optimization */
+    contain: paint;
+    transform: translateZ(0);
   }
 
   #network-canvas {
     width: 100%;
     height: 100%;
     display: block;
-    will-change: transform;
   }
 
-  /* Mobile fallback: static gradient instead of animation */
-  @media (max-width: 767px) {
-    .network-bg {
-      /* Subtle dot pattern using radial gradients */
-      background-image:
-        radial-gradient(
-          circle at 20% 30%,
-          rgba(99, 102, 241, 0.15) 1px,
-          transparent 1px
-        ),
-        radial-gradient(
-          circle at 80% 70%,
-          rgba(99, 102, 241, 0.12) 1px,
-          transparent 1px
-        ),
-        radial-gradient(
-          circle at 40% 80%,
-          rgba(99, 102, 241, 0.1) 1px,
-          transparent 1px
-        ),
-        radial-gradient(
-          circle at 60% 20%,
-          rgba(99, 102, 241, 0.13) 1px,
-          transparent 1px
-        );
-      background-size:
-        100px 100px,
-        150px 150px,
-        80px 80px,
-        120px 120px;
-      opacity: 0.8;
-    }
-
-    #network-canvas {
-      display: none; /* Hide canvas on mobile */
-    }
+  .network-bg {
+    opacity: 0.7;
   }
 
   :global(.dark) .network-bg {
     opacity: 0.5;
-  }
-
-  @media (max-width: 767px) {
-    :global(.dark) .network-bg {
-      opacity: 0.6;
-    }
   }
 </style>
 
 <script>
   import { initNetworkBackground } from '../../scripts/network-background';
 
-  // Only initialize on desktop
-  const isMobile =
-    /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
-      navigator.userAgent,
-    );
-
-  if (!isMobile) {
-    if (document.readyState === 'loading') {
-      document.addEventListener('DOMContentLoaded', initNetworkBackground, {
-        once: true,
-      });
-    } else {
-      initNetworkBackground();
-    }
-
-    document.addEventListener('astro:page-load', initNetworkBackground);
+  // Initialize on all devices (removed mobile check)
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initNetworkBackground, {
+      once: true,
+    });
+  } else {
+    initNetworkBackground();
   }
+
+  document.addEventListener('astro:page-load', initNetworkBackground);
 </script>

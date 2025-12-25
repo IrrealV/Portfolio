@@ -199,15 +199,17 @@ export function initNetworkBackground(): void {
   // Setup canvas size
   function setupCanvas(): boolean {
     const newWidth = window.innerWidth;
-    const newHeight = window.innerHeight;
 
-    // On mobile, only resize for orientation changes
-    if (lastWidth > 0 && isMobile && Math.abs(newWidth - lastWidth) < 100) {
+    // On mobile, only resize when WIDTH changes (orientation change)
+    // Ignore height changes (address bar show/hide)
+    if (lastWidth > 0 && isMobile && newWidth === lastWidth) {
       return false;
     }
 
     canvas.width = newWidth;
-    canvas.height = newHeight;
+    // On mobile: use screen.height (physical device height) to avoid jumps
+    // On desktop: use innerHeight (window height)
+    canvas.height = isMobile ? window.screen.height : window.innerHeight;
     lastWidth = newWidth;
     return true;
   }
