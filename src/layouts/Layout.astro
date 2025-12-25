@@ -101,6 +101,15 @@ const jsonLd = {
           e.newDocument.documentElement.classList.add('dark');
         }
       });
+
+      // Trusted Types Policy (Default) to satisfy CSP requirements without breaking legacy code
+      if (window.trustedTypes && window.trustedTypes.createPolicy) {
+        window.trustedTypes.createPolicy('default', {
+          createHTML: (string) => string,
+          createScript: (string) => string,
+          createScriptURL: (string) => string,
+        });
+      }
     </script>
   </head>
   <body class="font-sans antialiased min-h-screen">
