@@ -10,9 +10,9 @@
   --color-text-muted: #6b7280; /* Darkened from #9ca3af for better contrast */
   --color-border: #e5e7eb;
   --color-border-hover: #d1d5db;
-  /* Darkened for WCAG AA (Contact 4.5:1 on white text) */
-  --color-accent: #4f46e5; /* Indigo 600 */
-  --color-accent-light: #6366f1; /* Indigo 500 */
+  /* Darkened for WCAG AA (Contact >4.5:1 on white text) */
+  --color-accent: #4338ca; /* Indigo 700 - AAA Compliant */
+  --color-accent-light: #4f46e5; /* Indigo 600 */
 }
 
 .dark {
@@ -25,7 +25,7 @@
   --color-text-muted: #a1a1aa; /* Lightened from #71717a for better contrast */
   --color-border: #27272a;
   --color-border-hover: #3f3f46;
-  /* Darkened slightly to support white text better, and lighter hover */
-  --color-accent: #6366f1; /* Indigo 500 */
-  --color-accent-light: #818cf8; /* Indigo 400 */
+  /* Darkened to support white text in buttons (btn-primary) */
+  --color-accent: #4f46e5; /* Indigo 600 - AA Compliant (>4.5:1) */
+  --color-accent-light: #6366f1; /* Indigo 500 */
 }
