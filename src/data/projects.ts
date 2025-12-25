@@ -24,7 +24,7 @@ export const PROJECTS: Project[] = [
       'Arquitectura Monorepo',
       'Diseño Mobile-First',
     ],
-    image: '/ScrumPoker.png',
+    image: '/ScrumPoker.webp',
     url: 'https://poker.victorheras.me',
   },
   {
@@ -42,7 +42,7 @@ export const PROJECTS: Project[] = [
       'Gestión de contexto sin alucinaciones',
       'Diseño modular y accesible',
     ],
-    image: '/SuperPrompt.png',
+    image: '/SuperPrompt.webp',
     url: 'https://superprompt.victorheras.me',
   },
   {

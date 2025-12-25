@@ -52,7 +52,7 @@
   border-color: var(--color-accent);
 }
 
-/* Small pill/tag */
+/* Small pill/tag - use text-secondary for better contrast (WCAG AA) */
 .pill {
   display: inline-block;
   padding: 0.125rem 0.5rem;
@@ -60,7 +60,7 @@
   font-weight: 500;
   border-radius: 0.25rem;
   background-color: var(--color-bg-tertiary);
-  color: var(--color-text-muted);
+  color: var(--color-text-secondary);
 }
 
 /* Larger tech pill */

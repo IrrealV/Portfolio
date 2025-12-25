@@ -1,0 +1,6 @@
+# Robots.txt for victorheras.me
+User-agent: *
+Allow: /
+
+# Sitemap
+Sitemap: https://victorheras.me/sitemap.xml
