@@ -4,6 +4,19 @@ body {
   background-color: var(--color-bg);
   color: var(--color-text);
   transition: background-color 0.3s ease, color 0.3s ease;
+  /* Improve text rendering speed */
+  text-rendering: optimizeSpeed;
+}
+
+/* Optimizations for sections */
+section {
+  content-visibility: auto;
+  contain-intrinsic-size: 1px 1000px; /* Estimate height */
+}
+
+/* Hero should always be visible immediately */
+#hero {
+  content-visibility: visible;
 }
 
 /* Custom Scrollbar */
