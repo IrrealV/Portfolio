@@ -1,7 +1,7 @@
 // CV PDF Generator - Creates a professional resume PDF
 import html2pdf from 'html2pdf.js';
 import { generateCVHTML } from './cv-template';
-import { showToast } from './toast';
+import { showToast } from '../toast';
 
 const PDF_OPTIONS = {
   margin: 0.5,

@@ -1,5 +1,5 @@
 // CV HTML Template - Separated for maintainability
-import { EXPERIENCE, EDUCATION, STACK } from '../data';
+import { EXPERIENCE, EDUCATION, STACK } from '../../data';
 
 // Contact info for the CV
 export const CV_INFO = {

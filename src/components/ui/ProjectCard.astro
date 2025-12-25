@@ -6,9 +6,10 @@ interface Props {
 }
 
 const { project } = Astro.props;
+const Tag = project.isComingSoon ? 'div' : 'a';
 ---
 
-<a
+<Tag
   href={project.isComingSoon ? undefined : `/projects/${project.slug}`}
   class:list={[
     'project-card group block rounded-xl overflow-hidden border border-(--color-border) bg-(--color-bg-secondary) transition-all duration-300',
@@ -26,6 +27,8 @@ const { project } = Astro.props;
           alt={project.title}
           class="w-full h-full object-cover object-top transition-transform duration-500 group-hover:scale-105"
           loading="lazy"
+          width="600"
+          height="338"
           transition:name={`img-${project.slug}`}
         />
       </div>
@@ -70,4 +73,4 @@ const { project } = Astro.props;
       }
     </div>
   </div>
-</a>
+</Tag>
