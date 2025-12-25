@@ -22,6 +22,8 @@ export default defineConfig({
       minify: 'esbuild',
       // CSS code splitting
       cssCodeSplit: true,
+      // Create source maps for debugging
+      sourcemap: true,
     },
   },
 });
