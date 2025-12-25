@@ -9,7 +9,7 @@ interface Props {
 const { name, colorClass = 'text-(--color-text)' } = Astro.props;
 ---
 
-<span class={`tech-pill ${colorClass}`}>
-  <TechIcon name={name} class="w-4 h-4" />
+<span class="tech-pill">
+  <TechIcon name={name} class={`w-4 h-4 ${colorClass}`} />
   {name}
 </span>
