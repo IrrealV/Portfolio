@@ -15,7 +15,24 @@ Portfolio personal desarrollado con **Astro 5**, **TailwindCSS** y **TypeScript*
 - 🔔 **Notificaciones Toast** - Feedback visual para acciones del usuario
 - ✨ **Fondo de Red Animado** - Partículas con líneas conectoras (desktop) / patrón estático (móvil)
 
-## 🏗️ Arquitectura del Proyecto
+## 🚀 Optimizaciones (PageSpeed 100/100)
+
+El proyecto ha sido auditado y optimizado al máximo nivel técnico:
+
+| Categoría         | Puntuación | Optimizaciones Clave                                                                  |
+| :---------------- | :--------- | :------------------------------------------------------------------------------------ |
+| **Rendimiento**   | **100**    | LCP optimizado (`content-visibility`), CSS Inline, JS Lazy Loading, Imágenes WebP.    |
+| **Accesibilidad** | **100**    | Cumplimiento **WCAG AA**, colores de alto contraste, semántica HTML.                  |
+| **SEO**           | **100**    | Keywords semánticas, metadatos dinámicos, sitemap XML, etiquetas OpenGraph completas. |
+| **Prácticas**     | **100**    | Source maps activados, sin errores de consola, HTTPS estricto.                        |
+
+### 🛡️ Seguridad Implementada
+
+- **CSP (Content Security Policy)**: Política estricta con protección contra XSS.
+- **Trusted Types**: Refuerzo contra inyección de DOM.
+- **HSTS**: Preload habilitado (2 años) para forzar HTTPS.
+- **COOP**: Aislamiento de origen cruzado para prevenir ataques side-channel.
+- **Ofuscación de Email**: Protección contra scrapers de spam.
 
 ```
 src/
