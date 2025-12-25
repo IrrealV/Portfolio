@@ -43,14 +43,20 @@
 <script>
   import { initNetworkBackground } from '../../scripts/network-background';
 
-  // Initialize on all devices (removed mobile check)
+  const deferInit = () => {
+    if ('requestIdleCallback' in window) {
+      (window as any).requestIdleCallback(() => initNetworkBackground());
+    } else {
+      setTimeout(initNetworkBackground, 200);
+    }
+  };
+
+  // Initialize on all devices (loading deferred)
   if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', initNetworkBackground, {
-      once: true,
-    });
+    document.addEventListener('DOMContentLoaded', deferInit, { once: true });
   } else {
-    initNetworkBackground();
+    deferInit();
   }
 
-  document.addEventListener('astro:page-load', initNetworkBackground);
+  document.addEventListener('astro:page-load', deferInit);
 </script>
