@@ -3,7 +3,7 @@ export const SITE_INFO = {
   title: 'Victor Heras | Desarrollador Fullstack',
   description:
     'Desarrollador Fullstack especializado en Angular, NestJS, TypeScript y DevOps. Estudiante de Ingeniería Telemática. Portfolio con proyectos de desarrollo web moderno.',
-  email: 'contact@victorheras.me',
+  email: 'contact&#64;victorheras&#46;me',
   url: 'https://victorheras.me',
   author: 'Victor Manuel Heras Durillo',
   keywords: [
