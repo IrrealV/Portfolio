@@ -102,10 +102,15 @@ export function initNetworkBackground(): void {
     mouse = { x: -1000, y: -1000 };
   };
 
+  // Debounce resize
+  let resizeTimeout: number;
   const handleResize = () => {
-    if (setupCanvas() && window._networkBg?.particles.length === 0) {
-      createParticles();
-    }
+    if (resizeTimeout) cancelAnimationFrame(resizeTimeout);
+    resizeTimeout = requestAnimationFrame(() => {
+      if (setupCanvas() && window._networkBg?.particles.length === 0) {
+        createParticles();
+      }
+    });
   };
 
   // Initialize
