@@ -46,6 +46,24 @@ export const PROJECTS: Project[] = [
     url: 'https://superprompt.victorheras.me',
   },
   {
+    slug: 'ser-de-agua',
+    title: 'Ser de Agua',
+    tagline:
+      'Rediseño web moderno para un psicólogo, priorizando rendimiento y experiencia de usuario.',
+    problem:
+      'La web original (serdeagua.com) tenía un diseño anticuado, tiempos de carga lentos y no estaba optimizada para dispositivos móviles, lo que afectaba la captación de clientes potenciales.',
+    solution:
+      'Una refactorización completa con un diseño limpio, minimalista y profesional. Optimización extrema de rendimiento (100/100 PageSpeed), SEO mejorado y experiencia mobile-first para transmitir confianza y profesionalidad.',
+    stack: ['Astro 5', 'TailwindCSS', 'TypeScript', 'Vercel'],
+    features: [
+      'Diseño minimalista y profesional',
+      'Rendimiento 100/100 PageSpeed',
+      'SEO optimizado para servicios locales',
+    ],
+    image: '/ser-de-agua.webp',
+    url: 'https://ser-de-agua.vercel.app',
+  },
+  {
     slug: 'voice-booker',
     title: 'VoiceBooker',
     tagline:
