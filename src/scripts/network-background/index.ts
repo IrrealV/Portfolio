@@ -21,29 +21,29 @@ export function initNetworkBackground(): void {
     window._networkBg.animationId = 0;
   }
 
-  // Skip if already running and canvas is still in DOM
+  const isMobile = isMobileDevice();
+  const { particleCount, connectionDistance } = isMobile
+    ? CONFIG.mobile
+    : CONFIG.desktop;
+
+  // Skip full init if already running and canvas is still in DOM
   if (window._networkBg?.initialized && window._networkBg.canvas) {
     if (document.body.contains(window._networkBg.canvas)) {
-      // Restart the animation loop (single instance)
+      // Restart the animation loop (single instance) with mouse interaction
       const canvas = window._networkBg.canvas;
       const ctx = canvas.getContext('2d');
       if (ctx) {
-        const isMobile =
-          /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
-            navigator.userAgent,
-          );
-        const { connectionDistance } = isMobile
-          ? CONFIG.mobile
-          : CONFIG.desktop;
-
         const animate = (): void => {
           if (!window._networkBg?.initialized) return;
           const particles = window._networkBg.particles;
+          const mouse = window._networkBg.mouse;
           ctx.clearRect(0, 0, canvas.width, canvas.height);
-          const color = document.documentElement.classList.contains('dark')
-            ? 'rgba(99, 102, 241, 0.6)'
-            : 'rgba(79, 70, 229, 0.4)';
+          const color = getParticleColor();
+
           particles.forEach((p, i) => {
+            if (!isMobile && mouse) {
+              applyMouseRepulsion(p, mouse.x, mouse.y);
+            }
             moveParticle(p, canvas.width, canvas.height);
             drawParticle(ctx, p, color);
             for (let j = i + 1; j < particles.length; j++) {
@@ -64,21 +64,15 @@ export function initNetworkBackground(): void {
   const ctx = canvas.getContext('2d')!;
   if (!ctx) return;
 
-  const isMobile = isMobileDevice();
-  const { particleCount, connectionDistance } = isMobile
-    ? CONFIG.mobile
-    : CONFIG.desktop;
-
-  // State
-  let mouse = { x: -1000, y: -1000 };
   let lastWidth = 0;
 
-  // Initialize global state
+  // Initialize global state with mouse position
   window._networkBg = {
     initialized: true,
     particles: [],
     animationId: 0,
     canvas,
+    mouse: { x: -1000, y: -1000 },
   };
 
   // Setup canvas size
@@ -110,11 +104,12 @@ export function initNetworkBackground(): void {
     if (!window._networkBg?.initialized) return;
 
     const particles = window._networkBg.particles;
+    const mouse = window._networkBg.mouse;
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     const color = getParticleColor();
 
     particles.forEach((p, i) => {
-      if (!isMobile) {
+      if (!isMobile && mouse) {
         applyMouseRepulsion(p, mouse.x, mouse.y);
       }
 
@@ -129,13 +124,17 @@ export function initNetworkBackground(): void {
     window._networkBg.animationId = requestAnimationFrame(animate);
   }
 
-  // Event handlers
+  // Event handlers - update global mouse state
   const handleMouseMove = (e: MouseEvent) => {
-    if (!isMobile) mouse = { x: e.clientX, y: e.clientY };
+    if (!isMobile && window._networkBg) {
+      window._networkBg.mouse = { x: e.clientX, y: e.clientY };
+    }
   };
 
   const handleMouseLeave = () => {
-    mouse = { x: -1000, y: -1000 };
+    if (window._networkBg) {
+      window._networkBg.mouse = { x: -1000, y: -1000 };
+    }
   };
 
   // Debounce resize

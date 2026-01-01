@@ -21,6 +21,7 @@ export interface NetworkState {
   particles: Particle[];
   animationId: number;
   canvas: HTMLCanvasElement | null;
+  mouse: { x: number; y: number };
 }
 
 // Extend Window to store global state
