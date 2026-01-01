@@ -15,9 +15,45 @@ import {
 } from './particle';
 
 export function initNetworkBackground(): void {
-  // Skip if already running
+  // Cancel any existing animation loop to prevent stacking during SPA navigation
+  if (window._networkBg?.animationId) {
+    cancelAnimationFrame(window._networkBg.animationId);
+    window._networkBg.animationId = 0;
+  }
+
+  // Skip if already running and canvas is still in DOM
   if (window._networkBg?.initialized && window._networkBg.canvas) {
     if (document.body.contains(window._networkBg.canvas)) {
+      // Restart the animation loop (single instance)
+      const canvas = window._networkBg.canvas;
+      const ctx = canvas.getContext('2d');
+      if (ctx) {
+        const isMobile =
+          /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
+            navigator.userAgent,
+          );
+        const { connectionDistance } = isMobile
+          ? CONFIG.mobile
+          : CONFIG.desktop;
+
+        const animate = (): void => {
+          if (!window._networkBg?.initialized) return;
+          const particles = window._networkBg.particles;
+          ctx.clearRect(0, 0, canvas.width, canvas.height);
+          const color = document.documentElement.classList.contains('dark')
+            ? 'rgba(99, 102, 241, 0.6)'
+            : 'rgba(79, 70, 229, 0.4)';
+          particles.forEach((p, i) => {
+            moveParticle(p, canvas.width, canvas.height);
+            drawParticle(ctx, p, color);
+            for (let j = i + 1; j < particles.length; j++) {
+              drawConnection(ctx, p, particles[j], connectionDistance, color);
+            }
+          });
+          window._networkBg.animationId = requestAnimationFrame(animate);
+        };
+        window._networkBg.animationId = requestAnimationFrame(animate);
+      }
       return;
     }
   }
