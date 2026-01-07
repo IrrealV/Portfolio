@@ -34,71 +34,84 @@ El proyecto ha sido auditado y optimizado al máximo nivel técnico:
 - **COOP**: Aislamiento de origen cruzado para prevenir ataques side-channel.
 - **Ofuscación de Email**: Protección contra scrapers de spam.
 
-```
 src/
 ├── components/
-│   ├── icons/              # Iconos SVG como componentes
-│   │   ├── SocialIcon.astro    # GitHub, LinkedIn, Email
-│   │   ├── TechIcon.astro      # Iconos de tecnologías
-│   │   └── icons.ts            # Paths SVG centralizados
-│   │
-│   ├── sections/           # Secciones de página completas
-│   │   ├── Hero.astro              # Header con foto, nombre, social, CV
-│   │   ├── AboutSection.astro      # Sobre mí
-│   │   ├── ExperienceEducation.astro # Timelines lado a lado
-│   │   ├── ProjectsSection.astro   # Grid de proyectos
-│   │   ├── StackSection.astro      # Tecnologías
-│   │   ├── ContactSection.astro    # CTA de contacto
-│   │   └── ProjectDetail.astro     # Detalle de proyecto individual
-│   │
-│   └── ui/                 # Componentes reutilizables
-│       ├── Section.astro           # Wrapper de sección
-│       ├── TechPill.astro          # Badge de tecnología
-│       ├── Timeline.astro          # Timeline horizontal
-│       ├── Typewriter.astro        # Animación de texto
-│       ├── ProjectCard.astro       # Card de proyecto
-│       ├── ThemeToggle.astro       # Botón cambio de tema
-│       ├── FloatingControls.astro  # Botones flotantes (tema + scroll)
-│       └── NetworkBackground.astro # Fondo animado de partículas
+│ ├── icons/ # Iconos SVG como componentes
+│ │ ├── SocialIcon.astro # GitHub, LinkedIn, Email
+│ │ ├── TechIcon.astro # Iconos de tecnologías
+│ │ └── icons.ts # Paths SVG centralizados
+│ │
+│ ├── sections/ # Secciones de página completas
+│ │ ├── Hero.astro # Header con foto, nombre, social, CV
+│ │ ├── AboutSection.astro # Sobre mí
+│ │ ├── ExperienceEducation.astro # Timelines lado a lado
+│ │ ├── ProjectsSection.astro # Grid de proyectos
+│ │ ├── StackSection.astro # Tecnologías
+│ │ ├── ContactSection.astro # CTA de contacto
+│ │ └── ProjectDetail.astro # Detalle de proyecto individual
+│ │
+│ ├── ui/ # Componentes reutilizables
+│ │ ├── Section.astro # Wrapper de sección
+│ │ ├── TechPill.astro # Badge de tecnología
+│ │ ├── Timeline.astro # Timeline horizontal
+│ │ ├── TimelinePanel.astro # [NEW] Panel de detalle de timeline
+│ │ ├── Typewriter.astro # Animación de texto
+│ │ ├── ProjectCard.astro # Card de proyecto
+│ │ ├── ThemeToggle.astro # Botón cambio de tema
+│ │ ├── FloatingControls.astro # Botones flotantes (tema + scroll)
+│ │ ├── NetworkBackground.astro # Fondo animado de partículas
+│ │ └── ProfilePhoto.astro # [NEW] Foto de perfil con flip card
+│ │
+│ └── seo/ # [NEW] Componentes SEO y Metadatos
+│ ├── SEOHead.astro # Metatags, OpenGraph, JSON-LD
+│ └── ThemeScript.astro # Script de hidratación de tema (inline)
 │
-├── data/                   # Datos separados por entidad
-│   ├── index.ts            # Barrel export (punto de entrada único)
-│   ├── site.ts             # Info del sitio (título, email)
-│   ├── social.ts           # Redes sociales
-│   ├── stack.ts            # Tecnologías del stack
-│   ├── experience.ts       # Experiencia laboral
-│   ├── education.ts        # Formación académica
-│   └── projects.ts         # Proyectos del portfolio
+├── data/ # Datos separados por entidad
+│ ├── index.ts # Barrel export (punto de entrada único)
+│ ├── site.ts # Info del sitio (título, email)
+│ ├── social.ts # Redes sociales
+│ ├── stack.ts # Tecnologías del stack
+│ ├── experience.ts # Experiencia laboral
+│ ├── education.ts # Formación académica
+│ └── projects.ts # Proyectos del portfolio
 │
-├── scripts/                # Lógica JavaScript modular
-│   ├── theme.ts            # Toggle de tema claro/oscuro con iconos dinámicos
-│   ├── typewriter.ts       # Animación de texto
-│   ├── timeline.ts         # Interactividad del timeline
-│   ├── navigation.ts       # Back-to-top button
-│   ├── easter-egg.ts       # 🎮 Spin animation
-│   ├── cv-generator.ts     # Generación de CV en PDF
-│   ├── cv-template.ts      # Plantilla HTML del CV
-│   ├── toast.ts            # Sistema de notificaciones toast
-│   └── network-background.ts # Animación de partículas del fondo
+├── scripts/ # Lógica JavaScript modular
+│ ├── theme.ts # Toggle de tema claro/oscuro
+│ ├── typewriter.ts # Animación de texto
+│ ├── timeline.ts # Interactividad del timeline
+│ ├── navigation.ts # Back-to-top button
+│ ├── easter-egg.ts # 🎮 Spin animation
+│ ├── cv-generator.ts # Generación de CV en PDF
+│ ├── cv-template.ts # Plantilla HTML del CV
+│ ├── toast.ts # Sistema de notificaciones toast
+│ │
+│ └── network-background/ # [MODULAR] Animación de partículas
+│ ├── index.ts # Orquestador
+│ ├── events.ts # Manejo de eventos (mouse, resize)
+│ ├── physics.ts # Física de partículas
+│ ├── renderer.ts # Dibujado en canvas
+│ ├── utils.ts # Utilidades y detección de dispositivo
+│ └── types.ts # Definiciones de tipo
 │
-├── styles/                 # CSS modular
-│   ├── global.css          # Solo imports
-│   ├── theme.css           # Variables de tema (colores)
-│   ├── base.css            # Estilos base (body, scrollbar)
-│   ├── utilities.css       # Clases utilitarias
-│   └── animations.css      # Keyframes y flip card
+├── styles/ # CSS modular
+│ ├── global.css # Solo imports
+│ ├── theme.css # Variables de tema (colores)
+│ ├── base.css # Estilos base (body, scrollbar)
+│ ├── utilities.css # Clases utilitarias
+│ └── animations.css # Keyframes y flip card
 │
 ├── layouts/
-│   └── Layout.astro        # Layout principal con head, footer, background
+│ └── Layout.astro # Layout principal limpio (<100 líneas)
 │
 ├── pages/
-│   ├── index.astro         # Home - compone las secciones
-│   └── projects/
-│       └── [slug].astro    # Páginas dinámicas de proyectos
+│ ├── index.astro # Home - compone las secciones
+│ └── projects/
+│ └── [slug].astro # Páginas dinámicas de proyectos
 │
 └── types/
-    └── portfolio.ts        # Tipos TypeScript
-```
+└── portfolio.ts # Tipos TypeScript
+
+````
 
 ## 📦 Principios de Diseño
 
@@ -141,7 +154,7 @@ bun build
 
 # Preview del build
 bun preview
-```
+````
 
 ## 🔧 Personalización
 

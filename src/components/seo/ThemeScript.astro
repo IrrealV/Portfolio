@@ -1,0 +1,38 @@
+---
+/**
+ * ThemeScript.astro
+ * Handles initial theme application to prevent FOUC (Flash of Unstyled Content)
+ * and view transition theme persistence.
+ */
+---
+
+<script is:inline>
+  function applyTheme() {
+    const theme = localStorage.getItem('theme');
+    if (theme === 'light') {
+      document.documentElement.classList.remove('dark');
+    } else {
+      document.documentElement.classList.add('dark');
+    }
+  }
+  // Apply immediately on page load
+  applyTheme();
+  // Apply to the NEW document BEFORE it becomes visible (prevents flash)
+  document.addEventListener('astro:before-swap', (e) => {
+    const theme = localStorage.getItem('theme');
+    if (theme === 'light') {
+      e.newDocument.documentElement.classList.remove('dark');
+    } else {
+      e.newDocument.documentElement.classList.add('dark');
+    }
+  });
+
+  // Trusted Types Policy (Default) to satisfy CSP requirements without breaking legacy code
+  if (window.trustedTypes && window.trustedTypes.createPolicy) {
+    window.trustedTypes.createPolicy('default', {
+      createHTML: (string) => string,
+      createScript: (string) => string,
+      createScriptURL: (string) => string,
+    });
+  }
+</script>

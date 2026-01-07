@@ -1,5 +1,7 @@
 ---
 import type { Experience, Education } from '../../types/portfolio';
+import TimelinePanel from './TimelinePanel.astro';
+
 interface Props {
   items: (Experience | Education)[];
   type: 'experience' | 'education';
@@ -39,37 +41,7 @@ const endDate = (p: string) => p.split('–')[1]?.trim() || 'Actual';
     </div>
   </div>
   <div class="panels-container relative mt-2">
-    {
-      reversed.map((item, i) => (
-        <div
-          id={`${id}-panel-${i}`}
-          class="timeline-panel hidden absolute left-0 w-full max-w-sm p-4 rounded-xl bg-(--color-bg-secondary) border border-(--color-border) shadow-xl z-50"
-          data-panel-index={i}
-        >
-          <h4 class="font-semibold text-(--color-text)">
-            {isExp(item) ? item.title : item.degree}
-          </h4>
-          <p class="text-xs text-(--color-accent)">{item.period}</p>
-          <p class="text-sm text-(--color-text-secondary)">
-            {isExp(item)
-              ? `${item.company} · ${item.location}`
-              : item.institution}
-          </p>
-          {item.description && (
-            <p class="text-sm text-(--color-text-muted) mt-2">
-              {item.description}
-            </p>
-          )}
-          {isExp(item) && item.bullets.length > 0 && (
-            <ul class="mt-2 space-y-1">
-              {item.bullets.slice(0, 3).map((b) => (
-                <li class="text-sm text-(--color-text-muted)">→ {b}</li>
-              ))}
-            </ul>
-          )}
-        </div>
-      ))
-    }
+    {reversed.map((item, i) => <TimelinePanel item={item} index={i} id={id} />)}
   </div>
 </div>
 
@@ -80,19 +52,6 @@ const endDate = (p: string) => p.split('–')[1]?.trim() || 'Actual';
   }
   .scrollbar-hide::-webkit-scrollbar {
     display: none;
-  }
-  .timeline-panel.active {
-    display: block;
-    animation: fadeIn 0.2s;
-  }
-  @keyframes fadeIn {
-    from {
-      opacity: 0;
-      transform: translateY(-8px);
-    }
-    to {
-      opacity: 1;
-    }
   }
 </style>
 

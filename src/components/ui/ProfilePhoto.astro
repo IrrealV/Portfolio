@@ -1,0 +1,45 @@
+---
+/**
+ * ProfilePhoto.astro
+ * Displays the user's profile photo with a flip effect revealing an easter egg trigger.
+ */
+---
+
+<div
+  class="relative group perspective-1000 w-32 h-32 md:w-40 md:h-40 lg:w-48 lg:h-48"
+>
+  <!-- Decorative ring -->
+  <div
+    class="absolute inset-0 rounded-full border-2 border-(--color-accent) opacity-50 scale-110 z-10 pointer-events-none"
+  >
+  </div>
+
+  <!-- Flip Card Container -->
+  <div class="flip-card w-full h-full">
+    <div class="flip-card-inner group-hover:rotate-y-180">
+      <!-- Front - Profile Photo -->
+      <div
+        class="flip-card-front rounded-full overflow-hidden border-4 border-(--color-border) shadow-xl"
+      >
+        <img
+          src="/perfil.webp"
+          alt="Víctor Manuel Heras"
+          class="w-full h-full object-cover"
+        />
+      </div>
+      <!-- Back - Logo (Easter egg trigger) -->
+      <button
+        id="gravity-trigger"
+        type="button"
+        class="flip-card-back rounded-full border-4 border-(--color-accent) shadow-xl bg-(--color-bg-secondary) flex items-center justify-center cursor-pointer hover:scale-105 transition-transform"
+        aria-label="Easter egg"
+      >
+        <img
+          src="/favicon.svg"
+          alt="Logo"
+          class="w-1/2 h-1/2 object-contain pointer-events-none"
+        />
+      </button>
+    </div>
+  </div>
+</div>
