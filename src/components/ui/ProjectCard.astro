@@ -1,34 +1,33 @@
 ---
-import type { Project } from '../../types/portfolio';
+import { Image } from "astro:assets";
+import type { Project } from "../../types/portfolio";
 
 interface Props {
   project: Project;
 }
 
 const { project } = Astro.props;
-const Tag = project.isComingSoon ? 'div' : 'a';
+const Tag = project.isComingSoon ? "div" : "a";
 ---
 
 <Tag
   href={project.isComingSoon ? undefined : `/projects/${project.slug}`}
   class:list={[
-    'project-card group block rounded-xl overflow-hidden border border-(--color-border) bg-(--color-bg-secondary) transition-all duration-300',
+    "project-card group block rounded-xl overflow-hidden border border-(--color-border) bg-(--color-bg-secondary) transition-all duration-300",
     project.isComingSoon
-      ? 'opacity-60 cursor-not-allowed'
-      : 'hover:border-(--color-accent) hover:shadow-lg',
+      ? "opacity-60 cursor-not-allowed"
+      : "hover:border-(--color-accent) hover:shadow-lg",
   ]}
 >
   <!-- Image with View Transition -->
   {
     project.image ? (
       <div class="aspect-video overflow-hidden bg-(--color-bg-tertiary)">
-        <img
+        <Image
           src={project.image}
           alt={project.title}
           class="w-full h-full object-cover object-top transition-transform duration-500 group-hover:scale-105"
-          loading="lazy"
           width="600"
-          height="338"
           transition:name={`img-${project.slug}`}
         />
       </div>

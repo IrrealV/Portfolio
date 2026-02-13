@@ -1,4 +1,7 @@
 import type { Project } from '../types/portfolio';
+import scrumPokerImg from '../assets/images/ScrumPoker.png';
+import superPromptImg from '../assets/images/SuperPrompt.png';
+import serDeAguaImg from '../assets/images/ser-de-agua.png';
 
 // Portfolio projects
 export const PROJECTS: Project[] = [
@@ -24,7 +27,7 @@ export const PROJECTS: Project[] = [
       'Arquitectura Monorepo',
       'Diseño Mobile-First',
     ],
-    image: '/ScrumPoker.webp',
+    image: scrumPokerImg,
     url: 'https://poker.victorheras.me',
   },
   {
@@ -42,7 +45,7 @@ export const PROJECTS: Project[] = [
       'Gestión de contexto sin alucinaciones',
       'Diseño modular y accesible',
     ],
-    image: '/SuperPrompt.webp',
+    image: superPromptImg,
     url: 'https://superprompt.victorheras.me',
   },
   {
@@ -60,7 +63,7 @@ export const PROJECTS: Project[] = [
       'Rendimiento 100/100 PageSpeed',
       'SEO optimizado para servicios locales',
     ],
-    image: '/ser-de-agua.webp',
+    image: serDeAguaImg,
     url: 'https://ser-de-agua.vercel.app',
   },
   {

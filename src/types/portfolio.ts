@@ -32,6 +32,8 @@ export interface Education {
 // PROJECTS
 // ============================================
 
+import type { ImageMetadata } from 'astro';
+
 export interface Project {
   slug: string;
   title: string;
@@ -40,7 +42,7 @@ export interface Project {
   solution: string;
   stack: string[];
   features: string[];
-  image?: string;
+  image?: ImageMetadata;
   url?: string;
   isComingSoon?: boolean;
 }

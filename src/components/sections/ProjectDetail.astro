@@ -1,5 +1,6 @@
 ---
-import type { Project } from '../../types/portfolio';
+import { Image } from "astro:assets";
+import type { Project } from "../../types/portfolio";
 interface Props {
   project: Project;
 }
@@ -16,8 +17,8 @@ const { project: p } = Astro.props;
     ><path
       stroke-linecap="round"
       stroke-linejoin="round"
-      d="M10 19l-7-7m0 0l7-7m-7 7h18"></path></svg
-  >
+      d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
+  </svg>
   Volver
 </a>
 
@@ -46,11 +47,14 @@ const { project: p } = Astro.props;
 {
   p.image && (
     <div class="mb-12 rounded-xl overflow-hidden border border-(--color-border)">
-      <img
+      <Image
         src={p.image}
         alt={p.title}
         class="w-full"
         transition:name={`img-${p.slug}`}
+        quality="high"
+        widths={[600, 1200, 2000]}
+        sizes="(max-width: 600px) 100vw, (max-width: 1200px) 100vw, 2000px"
       />
     </div>
   )
