@@ -3,6 +3,8 @@
  * ProfilePhoto.astro
  * Displays the user's profile photo with a flip effect revealing an easter egg trigger.
  */
+import { Image } from "astro:assets";
+import profilePhoto from "../../assets/images/perfil.webp";
 ---
 
 <div
@@ -21,10 +23,13 @@
       <div
         class="flip-card-front rounded-full overflow-hidden border-4 border-(--color-border) shadow-xl"
       >
-        <img
-          src="/perfil.webp"
+        <Image
+          src={profilePhoto}
           alt="Víctor Manuel Heras"
           class="w-full h-full object-cover"
+          width={200}
+          height={200}
+          quality="max"
         />
       </div>
       <!-- Back - Logo (Easter egg trigger) -->
