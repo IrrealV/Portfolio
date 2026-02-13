@@ -52,7 +52,7 @@ const { project: p } = Astro.props;
         alt={p.title}
         class="w-full"
         transition:name={`img-${p.slug}`}
-        quality="high"
+        quality="max"
         widths={[600, 1200, 2000]}
         sizes="(max-width: 600px) 100vw, (max-width: 1200px) 100vw, 2000px"
       />

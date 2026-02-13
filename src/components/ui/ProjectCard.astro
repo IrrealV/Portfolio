@@ -27,7 +27,10 @@ const Tag = project.isComingSoon ? "div" : "a";
           src={project.image}
           alt={project.title}
           class="w-full h-full object-cover object-top transition-transform duration-500 group-hover:scale-105"
-          width="600"
+          width={600}
+          widths={[600, 1200]}
+          sizes="(max-width: 768px) 100vw, 600px"
+          quality="max"
           transition:name={`img-${project.slug}`}
         />
       </div>
