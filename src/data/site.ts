@@ -20,7 +20,7 @@ export const SITE_INFO = {
     'devops',
     'docker',
     'kubernetes',
-    'azure container apps',
+
     'bun runtime',
     'astro framework',
     'websockets',
