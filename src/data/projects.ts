@@ -2,6 +2,7 @@ import type { Project } from '../types/portfolio';
 import scrumPokerImg from '../assets/images/ScrumPoker.png';
 import superPromptImg from '../assets/images/SuperPrompt.png';
 import serDeAguaImg from '../assets/images/ser-de-agua.png';
+import mesonSantosImg from '../assets/images/meson-santos.png';
 
 // Portfolio projects
 export const PROJECTS: Project[] = [
@@ -65,6 +66,24 @@ export const PROJECTS: Project[] = [
     ],
     image: serDeAguaImg,
     url: 'https://ser-de-agua.vercel.app',
+  },
+  {
+    slug: 'meson-santos',
+    title: 'Mesón Santos',
+    tagline:
+      'Web gastronómica con carta interactiva 3D y SEO local avanzado para máxima visibilidad.',
+    problem:
+      'Los restaurantes tradicionales carecen de presencia digital efectiva. Sus webs suelen ser lentas, sin optimización SEO local y con cartas en PDF difíciles de navegar en móvil, perdiendo clientes que buscan "restaurantes cerca de mí".',
+    solution:
+      'Una web ultra-optimizada con puntuación perfecta (100/100) en todos los tests de PageSpeed. Incluye un flipbook 3D interactivo para explorar la carta de forma inmersiva, SEO local avanzado con datos estructurados y despliegue en Firebase para máxima disponibilidad.',
+    stack: ['Astro 5', 'TailwindCSS v4', 'Firebase', 'SEO Local'],
+    features: [
+      '100/100 en todos los tests de PageSpeed',
+      'Flipbook 3D interactivo para la carta',
+      'SEO local avanzado con datos estructurados',
+    ],
+    image: mesonSantosImg,
+    url: 'https://mesonsantos.com',
   },
   {
     slug: 'voice-booker',
