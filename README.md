@@ -34,6 +34,9 @@ El proyecto ha sido auditado y optimizado al máximo nivel técnico:
 - **COOP**: Aislamiento de origen cruzado para prevenir ataques side-channel.
 - **Ofuscación de Email**: Protección contra scrapers de spam.
 
+## 📁 Estructura del Proyecto
+
+```
 src/
 ├── components/
 │ ├── icons/ # Iconos SVG como componentes
@@ -110,8 +113,7 @@ src/
 │
 └── types/
 └── portfolio.ts # Tipos TypeScript
-
-````
+```
 
 ## 📦 Principios de Diseño
 
@@ -154,7 +156,7 @@ bun build
 
 # Preview del build
 bun preview
-````
+```
 
 ## 🔧 Personalización
 
