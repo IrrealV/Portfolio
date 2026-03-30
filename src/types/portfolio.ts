@@ -44,6 +44,7 @@ export interface Project {
   features: string[];
   image?: ImageMetadata;
   url?: string;
+  urls?: { label: string; url: string }[];
   isComingSoon?: boolean;
 }
 

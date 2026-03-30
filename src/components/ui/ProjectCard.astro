@@ -8,6 +8,8 @@ interface Props {
 
 const { project } = Astro.props;
 const Tag = project.isComingSoon ? "div" : "a";
+const imagePositionClass =
+  project.slug === "gentle-ai-contributor" ? "object-center" : "object-top";
 ---
 
 <Tag
@@ -26,7 +28,7 @@ const Tag = project.isComingSoon ? "div" : "a";
         <Image
           src={project.image}
           alt={project.title}
-          class="w-full h-full object-cover object-top transition-transform duration-500 group-hover:scale-105"
+          class={`w-full h-full object-cover ${imagePositionClass} transition-transform duration-500 group-hover:scale-105`}
           width={600}
           widths={[600, 1200]}
           sizes="(max-width: 768px) 100vw, 600px"

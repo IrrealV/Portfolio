@@ -3,6 +3,7 @@ import scrumPokerImg from '../assets/images/ScrumPoker.png';
 import superPromptImg from '../assets/images/SuperPrompt.png';
 import serDeAguaImg from '../assets/images/ser-de-agua.png';
 import mesonSantosImg from '../assets/images/meson-santos.png';
+import gentleAiImg from '../assets/images/gentle-ai.png';
 
 // Portfolio projects
 export const PROJECTS: Project[] = [
@@ -84,6 +85,35 @@ export const PROJECTS: Project[] = [
     ],
     image: mesonSantosImg,
     url: 'https://mesonsantos.com',
+  },
+  {
+    slug: 'gentle-ai-contributor',
+    title: 'Contribuidor Open Source & Orquestador de IA @ Gentle-AI (Gentleman Programming)',
+    tagline:
+      'Contribución OSS orientada a arquitectura de agentes, fiabilidad MCP y hardening de seguridad en Go.',
+    problem:
+      'El ecosistema multiagente de Gentle-AI necesitaba mejorar compatibilidad real entre IDEs (Windsurf), robustez de enrutamiento MCP y capacidad de desinstalación reversible sin fricción. Además, había inconsistencias en detección de monorepos profundos y riesgos técnicos en operaciones de escritura y limpieza de configuración.',
+    solution:
+      'Diseñé e implementé propuestas técnicas completas mediante PRs e issues trazables en GitHub: soporte nativo de Windsurf, corrección de path absoluto para Engram en MCP y mejoras de detección de raíz de workspace. También abrí y desarrollé una implementación avanzada de desinstalación granular con refuerzo de seguridad (atomic writes, validaciones anti-symlink, preservación de EOL y parsing numérico seguro), alineada con el modelo de reversibilidad del proyecto.',
+    stack: [
+      'Go 1.24',
+      'Bubble Tea (TUI)',
+      'MCP',
+      'Golden Tests',
+      'Docker',
+      'GitHub PR/Issue Flow',
+      'AI Orchestration',
+    ],
+    features: [
+      'Issue #92 (status:approved -> completed): soporte nativo de Windsurf desplegado en release v1.11.0+ con adapter, detección, inyección de prompt/SDD y configuración MCP.',
+      'Issue #123 (closed/completed): fix de enrutamiento MCP por path absoluto + mejora de detección de monorepos; publicado en v1.11.3.',
+      'PR #163 (abierto): implementación de uninstall granular en TUI + hardening de seguridad en Go (atomic writes, límites de lectura, protección symlink, preservación CRLF y UseNumber en JSON).',
+    ],
+    image: gentleAiImg,
+    urls: [
+      { label: 'Mi Fork', url: 'https://github.com/IrrealV/gentle-ai' },
+      { label: 'Repo Oficial', url: 'https://github.com/Gentleman-Programming/gentle-ai' },
+    ],
   },
   {
     slug: 'voice-booker',
