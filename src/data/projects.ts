@@ -22,7 +22,7 @@ export const PROJECTS: Project[] = [
       'TailwindCSS',
       'Bun',
       'Docker',
-      'Azure',
+      'Google Cloud',
     ],
     features: [
       'Comunicación bidireccional con Websockets',
@@ -41,7 +41,7 @@ export const PROJECTS: Project[] = [
       'El síndrome del "lienzo en blanco" al usar LLMs. La mayoría de usuarios obtienen resultados mediocres porque no saben estructurar el contexto, el rol y las restricciones necesarias.',
     solution:
       'Una interfaz estructurada que guía al usuario para componer el "Prompt Perfecto". Separa lógicamente la instrucción, el contexto y el formato de salida. Genera plantillas reutilizables y optimizadas para diferentes modelos de IA.',
-    stack: ['Astro 5', 'NestJS', 'Bun', 'Docker', 'Azure'],
+    stack: ['Astro 5', 'NestJS', 'Bun', 'Docker', 'Google Cloud'],
     features: [
       'Rendimiento extremo (<100ms)',
       'Gestión de contexto sin alucinaciones',

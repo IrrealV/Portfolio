@@ -106,7 +106,7 @@ const { project: p } = Astro.props;
 <section class="mb-10">
   <h2 class="section-heading">Tecnologías</h2>
   <div class="flex flex-wrap gap-2">
-    {p.stack.map((t) => <span class="tech-pill">{t}</span>)}
+    {p.stack.map((t) => <span class="tech-pill" set:html={t} />)}
   </div>
 </section>
 
