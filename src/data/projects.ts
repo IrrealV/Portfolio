@@ -4,6 +4,8 @@ import superPromptImg from '../assets/images/SuperPrompt.png';
 import serDeAguaImg from '../assets/images/ser-de-agua.png';
 import mesonSantosImg from '../assets/images/meson-santos.png';
 import gentleAiImg from '../assets/images/gentle-ai.png';
+import pluginGentlemanImg from '../assets/images/main-gentle-plugin.png';
+import mustachiGentlemanImg from '../assets/images/mustachi-gentle-plugin.png';
 
 // Portfolio projects
 export const PROJECTS: Project[] = [
@@ -116,6 +118,25 @@ export const PROJECTS: Project[] = [
     ],
   },
   {
+    slug: 'plugin-gentleman',
+    title: 'Plugin Gentleman',
+    tagline:
+      'Mustachi, la mascota de Gentleman Programming, ahora en tu terminal con estilo.',
+    problem:
+      'Los desarrolladores pasan horas en el terminal sin elementos visuales que aporten personalidad o conexión con la comunidad. Las herramientas CLI suelen ser funcionales pero carentes de identidad.',
+    solution:
+      'Un plugin TUI para OpenCode que integra a Mustachi, la mascota oficial de Gentleman Programming, con animaciones sutiles, frases motivadoras en rioplatense y detección de entorno. Arte ASCII artesanal con interactividad.',
+    stack: ['TypeScript', 'Solid.js', 'TSX', 'OpenCode Plugin System'],
+    features: [
+      'Animaciones de pestaneo y mirada en 8 direcciones',
+      '36+ frases motivadoras en español rioplatense',
+      'Detección de SO y proveedores LLM',
+      'Tema Gentleman con paleta oscura refinada',
+    ],
+    image: pluginGentlemanImg,
+    url: 'https://github.com/IrrealV/plugin-gentleman',
+  },
+  {
     slug: 'voice-booker',
     title: 'VoiceBooker',
     tagline:
@@ -133,3 +154,5 @@ export const PROJECTS: Project[] = [
     isComingSoon: true,
   },
 ];
+
+void mustachiGentlemanImg;
