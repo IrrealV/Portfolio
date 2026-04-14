@@ -1,17 +1,5 @@
 // CV HTML Template - Separated for maintainability
-import { EXPERIENCE, EDUCATION, STACK } from '../../data';
-
-// Contact info for the CV
-export const CV_INFO = {
-  name: 'Víctor Manuel Heras Durillo',
-  title: 'Desarrollador Fullstack',
-  email: 'contact@victorheras.me',
-  phone: '+34 658 204 691',
-  location: 'Jaén, España',
-  website: 'victorheras.me',
-  linkedin: 'linkedin.com/in/vmheras',
-  github: 'github.com/IrrealV',
-};
+import { ABOUT, EDUCATION, EXPERIENCE, LANGUAGES, PROFILE, STACK } from '../../data';
 
 const experienceItem = (exp: (typeof EXPERIENCE)[0]) => `
   <div style="margin-bottom: 12px;">
@@ -50,6 +38,23 @@ export function generateCVHTML(): string {
   const experienceHTML = EXPERIENCE.map(experienceItem).join('');
   const educationHTML = EDUCATION.map(educationItem).join('');
   const stackHTML = STACK.map((tech) => tech.name).join(' · ');
+  const aboutSummaryHTML = [ABOUT.intro, ABOUT.experience, ABOUT.goals]
+    .map((paragraph) => paragraph.trim())
+    .filter(Boolean)
+    .map(
+      (paragraph) =>
+        `<p style="font-size: 12px; color: #333; margin: 0 0 8px 0;">${paragraph}</p>`,
+    )
+    .join('');
+  const validLanguages = LANGUAGES.filter(
+    (language) => Boolean(language.name?.trim()) && Boolean(language.level?.trim()),
+  );
+  const languagesHTML = validLanguages
+    .map((language) => {
+      const detail = language.detail ? ` (${language.detail})` : '';
+      return `<li>${language.name}: ${language.level}${detail}</li>`;
+    })
+    .join('');
   const date = new Date().toLocaleDateString('es-ES', {
     year: 'numeric',
     month: 'long',
@@ -60,26 +65,24 @@ export function generateCVHTML(): string {
       <!-- Header -->
       <div style="margin-bottom: 24px; padding-bottom: 16px; border-bottom: 2px solid #6366f1;">
         <h1 style="margin: 0 0 4px 0; font-size: 28px; font-weight: 700; color: #1a1a1a; text-align: center;">${
-          CV_INFO.name
+          PROFILE.fullName
         }</h1>
         <p style="margin: 0 0 12px 0; font-size: 18px; color: #6366f1; font-weight: 600; text-align: center;">${
-          CV_INFO.title
+          PROFILE.title
         }</p>
         <div style="font-size: 11px; color: #555; text-align: center;">
-          📧 ${CV_INFO.email} · 📱 ${CV_INFO.phone} · 📍 ${CV_INFO.location}<br>
-          🌐 ${CV_INFO.website} · 💼 ${CV_INFO.linkedin} · 💻 ${CV_INFO.github}
+          📧 ${PROFILE.email} · 📱 ${PROFILE.phone} · 📍 ${PROFILE.location}<br>
+          🌐 ${PROFILE.website} · 💼 ${PROFILE.linkedin} · 💻 ${PROFILE.github}
         </div>
       </div>
 
       <!-- About -->
       <div style="margin-bottom: 20px;">
         ${sectionHeading('PERFIL PROFESIONAL')}
-        <p style="font-size: 12px; color: #333; margin: 0;">
-          Desarrollador Fullstack con enfoque en infraestructura y tres años de experiencia técnica. 
-          Especializado en construir aplicaciones modernas y eficientes usando Angular, NestJS y Astro. 
-          Combinando formación en Ingeniería Telemática con mentalidad práctica para crear soluciones 
-          escalables que aportan valor real al usuario final.
-        </p>
+        ${
+          aboutSummaryHTML ||
+          '<p style="font-size: 12px; color: #666; margin: 0;">Resumen profesional no disponible.</p>'
+        }
       </div>
 
       <!-- Experience -->
@@ -92,6 +95,16 @@ export function generateCVHTML(): string {
       <div style="margin-bottom: 20px;">
         ${sectionHeading('FORMACIÓN ACADÉMICA')}
         ${educationHTML}
+      </div>
+
+      <!-- Languages -->
+      <div style="margin-bottom: 20px;">
+        ${sectionHeading('IDIOMAS')}
+        ${
+          languagesHTML
+            ? `<ul style="margin: 0; padding-left: 16px; font-size: 12px; color: #333;">${languagesHTML}</ul>`
+            : '<p style="font-size: 12px; color: #666; margin: 0;">Información de idiomas no disponible.</p>'
+        }
       </div>
 
       <!-- Skills -->

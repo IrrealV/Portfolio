@@ -5,3 +5,5 @@ export { STACK } from './stack';
 export { EXPERIENCE } from './experience';
 export { EDUCATION } from './education';
 export { PROJECTS } from './projects';
+export { PROFILE, ABOUT } from './profile';
+export { LANGUAGES } from './languages';

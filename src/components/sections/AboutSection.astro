@@ -1,6 +1,11 @@
 ---
 import Section from '../ui/Section.astro';
 import TechIcon from '../icons/TechIcon.astro';
+import { ABOUT, LANGUAGES } from '../../data';
+
+const visibleLanguages = LANGUAGES.filter(
+  (language) => Boolean(language.name?.trim()) && Boolean(language.level?.trim()),
+);
 
 /**
  * About section - 3 columns with representative icons
@@ -12,8 +17,7 @@ import TechIcon from '../icons/TechIcon.astro';
     <!-- Column 1: Introduction -->
     <div class="flex flex-col">
       <p class="text-(--color-text-secondary) leading-relaxed text-lg flex-1">
-        Soy Víctor Manuel, estudiante de Ingeniería Telemática y Desarrollador
-        Fullstack con un fuerte enfoque en la infraestructura.
+        {ABOUT.intro}
       </p>
       <div
         class="flex items-center justify-center gap-4 mt-6 pt-4 border-t border-(--color-border)"
@@ -29,8 +33,7 @@ import TechIcon from '../icons/TechIcon.astro';
     <!-- Column 2: Experience -->
     <div class="flex flex-col">
       <p class="text-(--color-text-secondary) leading-relaxed text-lg flex-1">
-        Cuento con tres años de experiencia técnica que me permiten construir
-        aplicaciones modernas y eficientes usando Angular, NestJS y Astro.
+        {ABOUT.experience}
       </p>
       <div
         class="flex items-center justify-center gap-4 mt-6 pt-4 border-t border-(--color-border)"
@@ -50,8 +53,7 @@ import TechIcon from '../icons/TechIcon.astro';
     <!-- Column 3: Goals -->
     <div class="flex flex-col">
       <p class="text-(--color-text-secondary) leading-relaxed text-lg flex-1">
-        Mi prioridad es crear soluciones escalables que optimicen procesos y
-        aporten valor real al usuario final, combinando disciplina con práctica.
+        {ABOUT.goals}
       </p>
       <div
         class="flex items-center justify-center gap-4 mt-6 pt-4 border-t border-(--color-border)"
@@ -62,4 +64,26 @@ import TechIcon from '../icons/TechIcon.astro';
       </div>
     </div>
   </div>
+
+  {
+    visibleLanguages.length > 0 && (
+      <div class="mt-8 pt-6 border-t border-(--color-border)">
+        <h3 class="text-lg font-semibold text-(--color-text) mb-4">Idiomas</h3>
+        <ul class="flex flex-wrap gap-3">
+          {visibleLanguages.map((language) => (
+            <li class="px-3 py-2 rounded-xl border border-(--color-border) text-sm text-(--color-text-secondary)">
+              <span class="font-medium text-(--color-text)">{language.name}</span>
+              <span class="mx-2 text-(--color-border)">•</span>
+              <span>{language.level}</span>
+              {language.detail && (
+                <span class="ml-2 text-(--color-text-muted)">
+                  ({language.detail})
+                </span>
+              )}
+            </li>
+          ))}
+        </ul>
+      </div>
+    )
+  }
 </Section>

@@ -1,8 +1,7 @@
 ---
-import Typewriter from '../ui/Typewriter.astro';
 import SocialIcon from '../icons/SocialIcon.astro';
 import ProfilePhoto from '../ui/ProfilePhoto.astro';
-import { SOCIALS } from '../../data';
+import { PROFILE, SOCIALS } from '../../data';
 
 /**
  * Hero section with profile photo flip effect and social links
@@ -18,12 +17,12 @@ import { SOCIALS } from '../../data';
       <h1
         class="text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tight mb-3 text-(--color-text)"
       >
-        Víctor Manuel Heras
+        {PROFILE.fullName}
       </h1>
       <p
         class="text-2xl sm:text-3xl font-semibold text-(--color-accent) mb-6 min-h-10"
       >
-        <Typewriter />
+        {PROFILE.title}
       </p>
 
       <!-- Social Links & CV Download -->
