@@ -19,6 +19,9 @@ export interface Experience {
   period: string;
   description: string;
   bullets: string[];
+  workType?: string;
+  contractType?: string;
+  schedule?: string;
 }
 
 export interface Education {

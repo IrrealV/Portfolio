@@ -1,7 +1,16 @@
 // CV HTML Template - Separated for maintainability
 import { ABOUT, EDUCATION, EXPERIENCE, LANGUAGES, PROFILE, STACK } from '../../data';
 
-const experienceItem = (exp: (typeof EXPERIENCE)[0]) => `
+const experienceItem = (exp: (typeof EXPERIENCE)[0]) => {
+  const metadata = [
+    exp.workType ? `Modalidad: ${exp.workType}` : null,
+    exp.contractType ? `Contrato: ${exp.contractType}` : null,
+    exp.schedule ? `Jornada: ${exp.schedule}` : null,
+  ]
+    .filter(Boolean)
+    .join(' · ');
+
+  return `
   <div style="margin-bottom: 12px;">
     <div style="display: flex; justify-content: space-between; align-items: baseline;">
       <strong style="color: #1a1a1a;">${exp.title}</strong>
@@ -10,6 +19,7 @@ const experienceItem = (exp: (typeof EXPERIENCE)[0]) => `
     <div style="color: #6366f1; font-size: 12px;">${exp.company} · ${
   exp.location
 }</div>
+    ${metadata ? `<div style="color: #666; font-size: 10px; margin-top: 2px;">${metadata}</div>` : ''}
     <p style="color: #444; font-size: 11px; margin: 4px 0;">${
       exp.description
     }</p>
@@ -20,7 +30,8 @@ const experienceItem = (exp: (typeof EXPERIENCE)[0]) => `
     </ul>`
         : ''
     }
-  </div>`;
+   </div>`;
+};
 
 const educationItem = (edu: (typeof EDUCATION)[0]) => `
   <div style="margin-bottom: 10px;">
@@ -71,8 +82,8 @@ export function generateCVHTML(): string {
           PROFILE.title
         }</p>
         <div style="font-size: 11px; color: #555; text-align: center;">
-          📧 ${PROFILE.email} · 📱 ${PROFILE.phone} · 📍 ${PROFILE.location}<br>
-          🌐 ${PROFILE.website} · 💼 ${PROFILE.linkedin} · 💻 ${PROFILE.github}
+          <div>📧 ${PROFILE.email} · 📱 ${PROFILE.phone} · 📍 ${PROFILE.location}</div>
+          <div style="margin-top: 4px;">🌐 ${PROFILE.website} · 💼 ${PROFILE.linkedin} · 💻 ${PROFILE.github}</div>
         </div>
       </div>
 

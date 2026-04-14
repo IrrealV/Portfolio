@@ -6,6 +6,9 @@ export const EXPERIENCE: Experience[] = [
     title: 'Especialista en Soporte IT',
     company: 'LA CASA DEL PC S.L.',
     location: 'Linares, España',
+    workType: 'Presencial',
+    contractType: 'Tiempo completo',
+    schedule: 'Jornada completa',
     period: 'Sept 2022 – Ago 2025',
     description:
       'Lidero el soporte técnico, el mantenimiento de sistemas y la continuidad operativa en entorno retail.',
@@ -19,6 +22,9 @@ export const EXPERIENCE: Experience[] = [
     title: 'Desarrollador Fullstack',
     company: 'Acerca Solutions Smart Cities',
     location: 'La Carolina, España',
+    workType: 'Presencial',
+    contractType: 'Tiempo completo',
+    schedule: 'Jornada completa',
     period: 'Feb 2023 – Jun 2024',
     description:
       'Desarrollé soluciones para entornos Smart City con foco en rendimiento, mantenibilidad e integración de servicios.',
@@ -31,6 +37,9 @@ export const EXPERIENCE: Experience[] = [
     title: 'Desarrollador Frontend',
     company: 'POKEMILLON',
     location: 'Salou, España (Remoto)',
+    workType: 'Remoto',
+    contractType: 'Tiempo completo',
+    schedule: 'Jornada completa',
     period: 'Ene 2022 – Ago 2023',
     description:
       'Desarrollé interfaces para una plataforma e-commerce con foco en conversión, usabilidad y consistencia visual.',
@@ -43,6 +52,9 @@ export const EXPERIENCE: Experience[] = [
     title: 'Técnico Informático',
     company: 'Quantion',
     location: 'España',
+    workType: 'Remoto',
+    contractType: 'Temporal',
+    schedule: 'Jornada completa',
     period: 'Sept 2020 – Dic 2020',
     description:
       'Brindé soporte técnico y gestioné incidencias en infraestructuras de telecomunicaciones.',

@@ -9,6 +9,14 @@ interface Props {
 
 const { item, index, id } = Astro.props;
 const isExp = (i: Experience | Education): i is Experience => 'company' in i;
+const experienceMetadata =
+  isExp(item)
+    ? [
+        item.workType ? `Modalidad: ${item.workType}` : null,
+        item.contractType ? `Contrato: ${item.contractType}` : null,
+        item.schedule ? `Jornada: ${item.schedule}` : null,
+      ].filter(Boolean)
+    : [];
 ---
 
 <div
@@ -23,6 +31,13 @@ const isExp = (i: Experience | Education): i is Experience => 'company' in i;
   <p class="text-sm text-(--color-text-secondary)">
     {isExp(item) ? `${item.company} · ${item.location}` : item.institution}
   </p>
+  {
+    experienceMetadata.length > 0 && (
+      <p class="mt-1 text-xs text-(--color-text-muted)">
+        {experienceMetadata.join(' · ')}
+      </p>
+    )
+  }
   {
     item.description && (
       <p class="text-sm text-(--color-text-muted) mt-2">{item.description}</p>
